@@ -1,0 +1,31 @@
+.confirmation-dialog {
+    text-align: center;
+  }
+  
+  .confirm-button, .cancel-button {
+    margin: 10px;
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+  }
+  
+  .confirm-button {
+    background-color: #5cb85c; /* Green */
+    color: white;
+  }
+  
+  .confirm-button:hover {
+    background-color: #4cae4c; /* Darker green on hover */
+  }
+  
+  .cancel-button {
+    background-color: #d9534f; /* Red */
+    color: white;
+  }
+  
+  .cancel-button:hover {
+    background-color: #c9302c; /* Darker red on hover */
+  }
+  

@@ -1,0 +1,38 @@
+.sign-out-button {
+    background-color: #fff;
+    color: #090909;
+    padding: 1rem 1.5rem;
+    border-radius: 9999px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .sign-out-button:hover {
+    background-color: #00e3e3;
+    color: #fff;
+  }
+
+  .settings-icon {
+    font-size: 2.5rem;
+    transition: transform 0.2s;
+    cursor: pointer; /* Add this line to change the cursor to a hand */
+  }
+  
+  .settings-icon:hover {
+    transform: scale(1.1);
+  }
+
+  .markup-textarea {
+    background-color: #ffffff; /* Light brown background color */
+  }
+
+  .input-box {
+    color: black;
+  }
+  
+  .info-block {
+    margin-bottom: 10px; /* Adjust the value to add more or less spacing */
+  }
+  
+  
