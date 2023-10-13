@@ -36,6 +36,7 @@ function SignUp() {
       if (response.ok) {
         const data = await response.json();
         console.log('Registration successful:', data.message);
+        navigate('/')
         // You may also want to store the token in localStorage or a cookie for future authentication
       } else {
         const errorData = await response.json();
