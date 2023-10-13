@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Link, Routes } from 'react-router-dom';
 import SignUp from './SignUp'; // Create a SignUp component for the registration page
 import Main from './Main'
+import { useNavigate } from 'react-router-dom';
+
 
 function App() {
   return (
@@ -21,21 +23,43 @@ function App() {
 }
 
 function Home() {
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission, including avatar file
-    const formData = new FormData();
-    formData.append('username', e.target.username.value);
-  //  formData.append('avatar', avatar);
-    formData.append('password', e.target.password.value);
+    const username = e.target.username.value;
+    const password = e.target.password.value;
 
-    const jsonData = {};
-    formData.forEach((value, key) => {
-      jsonData[key] = value;
-    });
-    console.log(jsonData);
-  };
+    try {
+      const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: username, // Assuming you use the username as the email for login
+          password: password,
+        }),
+      });
+
+      if (response.ok) {
+        // If the login was successful, you can handle it here.
+        const data = await response.json();
+        console.log('Login successful');
+        console.log(data); // This will include the token or other response data from your backend.
+
+        // Redirect to the home page or perform other actions.
+        navigate('/home')
+      } else {
+        // Handle login failure here.
+        const errorData = await response.json();
+        console.error('Login failed:', errorData);
+        // You can display an error message to the user.
+      }
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
+  }
 
   return (
       <div className="bg-blue-900 min-h-screen flex justify-center items-center">
