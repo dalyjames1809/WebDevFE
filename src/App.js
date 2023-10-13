@@ -72,7 +72,7 @@ function Home() {
           <h2 className="text-2xl font-semibold mb-4">Login</h2>
           <form  onSubmit={handleSubmit}> 
           <div className="mb-4">
-            <label className="block text-gray-600 font-semibold mb-2">Username</label>
+            <label className="block text-gray-600 font-semibold mb-2">Email</label>
             <input
               type="text"
               name="username"
