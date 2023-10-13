@@ -90,7 +90,7 @@ function Home() {
             />
           </div>
             <button
-              type="button" // Use type="button" to prevent form submission
+              type="sumbit" // Use type="button" to prevent form submission
               className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
             >
               Login
