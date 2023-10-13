@@ -17,23 +17,24 @@ function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const formData = new FormData();
     formData.append('username', e.target.username.value);
     formData.append('email', e.target.email.value);
     formData.append('password', e.target.password.value);
-  
-    const jsonData = {};
-    formData.forEach((value, key) => {
-      jsonData[key] = value;
-    });
+
+    // Convert the form data to URL-encoded format
+    const urlEncodedFormData = new URLSearchParams(formData).toString();
 
     try {
-      const response = await fetch('/register', {
+      const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/users/register', {
         method: 'POST',
-        body: jsonData,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: urlEncodedFormData,
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         console.log('Registration successful:', data.message);
@@ -116,4 +117,3 @@ function SignUp() {
 }
 
 export default SignUp;
-
