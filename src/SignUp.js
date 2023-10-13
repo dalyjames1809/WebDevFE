@@ -27,7 +27,7 @@ function SignUp() {
     const urlEncodedFormData = new URLSearchParams(formData).toString();
 
     try {
-      const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/users/register', {
+      const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
