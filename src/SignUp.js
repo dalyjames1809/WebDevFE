@@ -17,24 +17,23 @@ function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const formData = new FormData();
     formData.append('username', e.target.username.value);
     formData.append('email', e.target.email.value);
     formData.append('password', e.target.password.value);
-
-    // Convert the form data to URL-encoded format
-    const urlEncodedFormData = new URLSearchParams(formData).toString();
-
+  
+    // Append the avatar file to the form data if it's not null
+    if (avatar) {
+      formData.append('avatar', avatar);
+    }
+  
     try {
       const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/register', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: urlEncodedFormData,
+        body: formData,
       });
-
+  
       if (response.ok) {
         const data = await response.json();
         console.log('Registration successful:', data.message);
@@ -47,6 +46,7 @@ function SignUp() {
       console.error('Error registering user:', error);
     }
   };
+  
 
   return (
     <div className="bg-orange-700 min-h-screen flex justify-center items-center relative">
