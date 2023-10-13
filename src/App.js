@@ -89,14 +89,12 @@ function Home() {
               placeholder="Enter your password"
             />
           </div>
-          <Link to="/home">
             <button
               type="button" // Use type="button" to prevent form submission
               className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
             >
               Login
             </button>
-          </Link>
           <div className="mb-4">
             <label className="flex items-center italic">
               <input
