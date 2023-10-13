@@ -29,7 +29,7 @@ function SignUp() {
     }
   
     try {
-      const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/register', {
+      const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com', {
         method: 'POST',
         body: formData,
       });
