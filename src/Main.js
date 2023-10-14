@@ -10,7 +10,7 @@ import { useUser } from './UserContext';
 function Main() {
 
   const { username } = useUser();
-
+  
   function changeFontSize(direction) {
     var textarea = document.querySelector('.markup-textarea');
     var currentSize = window.getComputedStyle(textarea, null).getPropertyValue('font-size');
