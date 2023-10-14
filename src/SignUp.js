@@ -5,7 +5,6 @@ function SignUp() {
   const navigate = useNavigate();
   const [avatar, setAvatar] = useState(null);
 
-  // Function to navigate back to the login page
   const goBack = () => {
     navigate('/');
   };
