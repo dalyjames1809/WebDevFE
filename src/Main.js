@@ -5,8 +5,11 @@ import './SettingsModal.css';
 import SettingsPopup from './SettingsPopUp';
 import ConfirmationDialog from './SignOutPopUp';
 import NewNoteDialog from './NewNotePopUp';
+import { useUser } from './UserContext';
 
 function Main() {
+
+  const { username } = useUser();
 
   function changeFontSize(direction) {
     var textarea = document.querySelector('.markup-textarea');
@@ -112,7 +115,7 @@ function Main() {
           />
         </div>
         <div className="mr-4">
-          <h2 className="text-4xl font-funky mb-4 inline">WELCOME, USERNAME</h2>
+          <h2 className="text-4xl font-funky mb-4 inline">{username ? `Welcome, ${username}` : 'Welcome'}</h2>
         </div>
         <div className="flex items-center">
           <button className="sign-out-button" onClick={handleSignOut}>Sign Out</button>

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch, Link, Routes } from 'react-rout
 import SignUp from './SignUp'; // Create a SignUp component for the registration page
 import Main from './Main'
 import { useNavigate } from 'react-router-dom';
-
+import { useUser } from './UserContext';
 
 function App() {
   return (
@@ -24,6 +24,7 @@ function App() {
 
 function Home() {
   const navigate = useNavigate();
+  const { username, setUsername } = useUser();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,6 +46,7 @@ function Home() {
       if (response.ok) {
         // If the login was successful, you can handle it here.
         const data = await response.json();
+        setUsername(data.username);
         console.log('Login successful');
         console.log(data); // This will include the token or other response data from your backend.
 
