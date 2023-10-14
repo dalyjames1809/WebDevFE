@@ -24,11 +24,12 @@ function App() {
 
 function Home() {
   const navigate = useNavigate();
-  const { username, setUsername } = useUser();
+  const { setUsername } = useUser();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const username = e.target.username.value;
+    setUsername(username);
     const password = e.target.password.value;
 
     try {
@@ -46,7 +47,6 @@ function Home() {
       if (response.ok) {
         // If the login was successful, you can handle it here.
         const data = await response.json();
-        setUsername(data.username);
         console.log('Login successful');
         console.log(data); // This will include the token or other response data from your backend.
 
