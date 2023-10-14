@@ -6,6 +6,7 @@ import SettingsPopup from './SettingsPopUp';
 import ConfirmationDialog from './SignOutPopUp';
 import NewNoteDialog from './NewNotePopUp';
 import { useUser } from './UserContext';
+import index from './index';
 
 function Main() {
 
