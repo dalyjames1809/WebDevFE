@@ -23,6 +23,7 @@ function App() {
 }
 
 function Home() {
+  const [errorMessage, setErrorMessage] = useState(''); // State for error message
   const navigate = useNavigate();
   const { setUsername } = useUser();
 
@@ -39,7 +40,7 @@ function Home() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email: username, // Assuming you use the username as the email for login
+          email: username,
           password: password,
         }),
       });
@@ -48,73 +49,39 @@ function Home() {
         // If the login was successful, you can handle it here.
         const data = await response.json();
         console.log('Login successful');
-        console.log(data); // This will include the token or other response data from your backend.
-
-        // Redirect to the home page or perform other actions.
-        navigate('/home')
+        console.log(data);
+        navigate('/home');
       } else {
         // Handle login failure here.
         const errorData = await response.json();
-        console.error('Login failed:', errorData);
-        // You can display an error message to the user.
+        const errorMessage = errorData.message; // Assuming the error message is provided in the response.
+        setErrorMessage(errorMessage); // Set the error message in state
       }
     } catch (error) {
       console.error('Login failed:', error);
+      setErrorMessage('An error occurred while logging in.'); // Set a generic error message
     }
   }
 
   return (
-      <div className="bg-blue-900 min-h-screen flex justify-center items-center">
-        <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-        <img
-          src="https://logodix.com/logo/1677281.png" // URL of the external logo
-          className="w-32 h-32 mx-auto mb-4 rounded-full"
-          alt="external logo"
-        />
-          <h2 className="text-2xl font-semibold mb-4">Login</h2>
-          <form  onSubmit={handleSubmit}> 
-          <div className="mb-4">
-            <label className="block text-gray-600 font-semibold mb-2">Email</label>
-            <input
-              type="text"
-              name="username"
-              className="w-full p-2 border rounded-md"
-              placeholder="Enter your username"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-600 font-semibold mb-2">Password</label>
-            <input
-              type="password"
-              name="password"
-              className="w-full p-2 border rounded-md"
-              placeholder="Enter your password"
-            />
-          </div>
-            <button
-              type="sumbit" // Use type="button" to prevent form submission
-              className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
-            >
-              Login
-            </button>
-          <div className="mb-4">
-            <label className="flex items-center italic">
-              <input
-                type="checkbox"
-                className="mr-2"
-              />
-              Remember me
-            </label>
-          </div>
-          </form>
-          <p className="mt-4 text-gray-600">
-            Don't have an account?{' '}
-            <Link className="text-blue-500 hover:underline" to="/register">
-              Sign Up
-            </Link>
-          </p>
-        </div>
+    <div className="bg-blue-900 min-h-screen flex justify-center items-center">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-96">
+        {/* ... other form elements ... */}
+        <form onSubmit={handleSubmit}>
+          {/* ... form fields ... */}
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
+          >
+            Login
+          </button>
+          {errorMessage && ( // Display error message conditionally
+            <div className="text-red-500 mt-2">{errorMessage}</div>
+          )}
+        </form>
+        {/* ... other elements ... */}
       </div>
+    </div>
   );
 }
 
