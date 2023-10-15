@@ -3,6 +3,7 @@ import './ConfirmationDialog.css';
 import './SettingsModal.css';
 
 function NewNoteDialog({ handleClose, handleConfirm }) {
+  const noteName = e.target.title.value;
   return (
     <div className="confirmation-dialog">
       <h1 className="settings-heading">Add Note:</h1>
@@ -29,7 +30,7 @@ function NewNoteDialog({ handleClose, handleConfirm }) {
             <option value="category4">Summary</option>
             <option value="category4">Other</option>
       </select>
-      <button className="confirm-button" onClick={handleConfirm}>Create Note</button>
+      <button className="confirm-button" onClick={() => handleConfirm(noteName)}>Create Note</button>
       <button className="cancel-button" onClick={handleClose}>Cancel</button>
     </div>
   );
