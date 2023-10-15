@@ -10,6 +10,12 @@ import { useUser } from './UserContext';
 function Main() {
 
   const { username } = useUser();
+
+  // State to manage selected note and its content
+  const [selectedNote, setSelectedNote] = useState(null);
+
+  const [noteContent, setNoteContent] = useState("");
+
   
   function changeFontSize(direction) {
     var textarea = document.querySelector('.markup-textarea');
@@ -60,23 +66,27 @@ function Main() {
 
   const handleConfirmAddNote = (noteName) => {
     const newNote = { id: highestId + 1, text: noteName, checked: false };
+    if (selectedNote) {
+      const updatedNotes = notes.map((note) =>
+        note.id === selectedNote.id ? { ...note, checked: false } : note
+      );
+      setNotes(updatedNotes);
+    }
     addNote(newNote);
+    setSelectedNote(newNote); // Select the newly added note
     closeNewNoteDialog();
   };
   
-
 
   const [notes, setNotes] = useState([]);
   const [highestId, setHighestId] = useState(0);
 
   const addNote = (newNote) => {
-  
     if (sortByRecent) {
       setNotes([newNote, ...notes]);
     } else {
       setNotes([...notes, newNote]);
     }
-  
     setHighestId(highestId + 1);
   }
 
@@ -87,11 +97,27 @@ function Main() {
   }
 
   const handleCheckboxChange = (id) => {
-    const updatedNotes = notes.map(note =>
+    const updatedNotes = notes.map((note) =>
       note.id === id ? { ...note, checked: !note.checked } : note
     );
     setNotes(updatedNotes);
-  }
+  
+    // Find the note that corresponds to the clicked checkbox
+    const clickedNote = notes.find((note) => note.id === id);
+  
+    // If the clicked note is selected, populate the noteContent state with its text
+    if (clickedNote.id === selectedNote?.id && clickedNote.checked) {
+      setNoteContent(clickedNote.text);
+    } else {
+      // If the clicked note is deselected, clear the noteContent
+      setNoteContent("");
+    }
+  
+    // Set the selectedNote to the clicked note
+    setSelectedNote(clickedNote);
+  };
+  
+  
 
   const handleSortClick = () => {
     setSortByRecent(!sortByRecent);
@@ -228,7 +254,13 @@ function Main() {
             <button onClick={toggleColorPicker}><i className="fas fa-paint-brush"></i></button>
             {showColorPicker && <ColorPicker onChange={handleColorChange} />}
           </div>
-          <textarea className="w-full h-full border border-gray-300 p-2 markup-textarea" placeholder="Start typing..."></textarea>
+          <textarea
+            className="w-full h-full border border-gray-300 p-2 markup-textarea"
+            placeholder="Start typing..."
+            value={noteContent}
+            onChange={(e) => setNoteContent(e.target.value)}
+            readOnly={!selectedNote} // Disable editing if no note is selected
+          />
         </div>
       </div>
     </div>
