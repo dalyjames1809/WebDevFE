@@ -10,7 +10,7 @@ import { useUser } from './UserContext';
 function Main() {
 
   const { username } = useUser();
-
+  const [notename, setNoteName] = useState("");
   // State to manage selected note and its content
   const [selectedNote, setSelectedNote] = useState(null);
 
@@ -74,6 +74,7 @@ function Main() {
       );
       setNotes(updatedNotes);
     }
+    setNoteName(noteName);
     addNote(newNote);
     setSelectedNote(newNote); // Select the newly added note
     closeNewNoteDialog();
@@ -109,7 +110,7 @@ function Main() {
   
     // If the clicked note is selected, populate the noteContent state with its text
     if (clickedNote.checked) {
-      setNoteContent(clickedNote.text);
+      setNoteContent(clickedNote.content);
       setSelectedNote(clickedNote);
     } else {
       // Clear the noteContent when a note is deselected
@@ -122,11 +123,11 @@ function Main() {
     // When you save changes, update the clickedNote's text with the content in the text box.
     if (selectedNote) {
       const updatedNotes = notes.map((note) =>
-        note.id === selectedNote.id ? { ...note, text: noteContent } : note
+        note.id === selectedNote.id ? { ...note, content: noteContent } : note
       );
       setNotes(updatedNotes);
+      console.log('Content saved!');
     }
-    console.log('Content saved!');
   };
   
   
@@ -270,6 +271,13 @@ function Main() {
             <i className="fas fa-save"></i> {/* Add your save icon here */}
             </button>
           </div>
+          <input
+            type="text"
+            className="w-full border border-gray-300 p-2 input-box"
+            placeholder="Note Title"
+            value={notename}
+            onChange={(e) => setNoteName(e.target.value)}
+          />
           <textarea
             className="w-full h-full border border-gray-300 p-2 markup-textarea"
             placeholder="Start typing..."
