@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
+import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
+
+Modal.setAppElement('#root');
 
 function SignUp() {
   const navigate = useNavigate();
   const [avatar, setAvatar] = useState(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [validationError, setValidationError] = useState('');
+  const [imageValidationError, setImageValidationError] = useState(''); // Add image validation state
 
   const goBack = () => {
     navigate('/');
@@ -12,31 +18,76 @@ function SignUp() {
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     setAvatar(file);
+    setImageValidationError(''); // Clear previous image validation error
+  };
+
+  const isEmailValid = (email) => {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return emailRegex.test(email);
+  };
+
+  const isImageValid = (image) => {
+    if (!image) {
+      setValidationError('Please upload an avatar image');
+      return false;
+    }
+
+    return true;
+  };
+
+  const isPasswordValid = (password) => {
+    return password.length >= 8;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const formData = {
       username: e.target.username.value,
       email: e.target.email.value,
       password: e.target.password.value,
     };
-  
+
+    const username = e.target.username.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    if (!username || !email || !password) {
+      setValidationError('Please fill in all fields');
+      openModal();
+      return;
+    }
+
+    if (!isEmailValid(email)) {
+      setValidationError('Please enter a valid email address');
+      openModal();
+      return;
+    }
+
+    if (!isPasswordValid(password)) {
+      setValidationError('Password must have at least 8 characters');
+      openModal();
+      return;
+    }
+
+    if (!isImageValid(avatar)) { // Validate the uploaded avatar
+      openModal();
+      return;
+    }
+
     try {
       const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/users/register', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json', // Set the content type to JSON
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData), // Convert the data to JSON string
+        body: JSON.stringify(formData),
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         console.log('Registration successful:', data.message);
-        navigate('/')
-        // You may also want to store the token in localStorage or a cookie for future authentication
+        navigate('/');
       } else {
         const errorData = await response.json();
         console.error('Registration failed:', errorData.message);
@@ -45,8 +96,17 @@ function SignUp() {
       console.error('Error registering user:', error);
     }
   };
-  
-  
+
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+    setValidationError('');
+    setImageValidationError(''); // Clear image validation error
+  };
+
 
   return (
     <div className="bg-orange-700 min-h-screen flex justify-center items-center relative">
@@ -112,8 +172,49 @@ function SignUp() {
           </button>
         </form>
       </div>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={{
+        content: {
+          width: '300px',
+          height: '150px',
+          margin: 'auto',
+          border: '1px solid #ccc',
+          background: 'white',
+          borderRadius: '5px',
+          padding: '20px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center', // Center the content vertically
+         },
+        overlay: {
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+      }}
+      >
+      <p>{validationError}</p>
+      <button
+        onClick={closeModal}
+        style={{
+          color: 'white',
+          background: 'red',
+          borderRadius: '10px',
+          marginTop: '10px',
+          padding: '10px 20px',
+          cursor: 'pointer',
+      }}
+    >
+      Close
+    </button>
+    </Modal>
     </div>
   );
 }
 
 export default SignUp;
+

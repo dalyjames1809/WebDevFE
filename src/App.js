@@ -30,8 +30,14 @@ function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const username = e.target.username.value;
-    setUsername(username);
     const password = e.target.password.value;
+
+    if (!username || !password) {
+      setErrorMessage('Please fill in both the username and password fields.');
+      return;
+    }
+
+    setUsername(username);
 
     try {
       const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/users/login', {
@@ -62,7 +68,7 @@ function Home() {
       setErrorMessage('An error occurred while logging in.'); // Set a generic error message
     }
   }
-
+  
   return (
     <div className="bg-blue-900 min-h-screen flex justify-center items-center">
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
