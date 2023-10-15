@@ -119,11 +119,11 @@ function Main() {
       // Clear the noteContent when a note is deselected
       setNoteContent("");
     }
-
   
     // Set the selectedNote to the clicked note
     setSelectedNote(clickedNote);
   };
+  
   
   
 
