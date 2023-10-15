@@ -47,7 +47,7 @@ function SettingsPopup({ handleClose }) {
   // useEffect to fetch user data when the component is mounted
   useEffect(() => {
     // Replace 'userId' with the actual user ID you want to fetch
-    fetch(`/users/userId`, {
+    fetch(`/users/bob`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
