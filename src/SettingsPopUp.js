@@ -4,8 +4,7 @@ import ConfirmationDialog from './DeletePopUp';
 
 function SettingsPopup({ handleClose }) {
     const [formData, setFormData] = useState({
-      name: 'John',
-      surname: 'Doe',
+      username: 'John',
       email: 'john.doe@example.com',
       avatar: 'avatar.jpg',
       password: '********',
@@ -54,38 +53,19 @@ function SettingsPopup({ handleClose }) {
   
           <div className="info-block">
             <div className="label-column">
-              <label style={{ fontWeight: 'bold', fontSize: '1.2em' }}>Name:</label>
+              <label style={{ fontWeight: 'bold', fontSize: '1.2em' }}>Username:</label>
             </div>
             <div className="input-column">
               {editMode ? (
                 <input
                   type="text"
                   name="name"
-                  value={formData.name}
+                  value={formData.username}
                   onChange={handleInputChange}
                   style={{ color: 'black' }}
                 />
               ) : (
-                <span>{formData.name}</span>
-              )}
-            </div>
-          </div>
-  
-          <div className="info-block">
-            <div className="label-column">
-              <label style={{ fontWeight: 'bold', fontSize: '1.2em' }}>Surname:</label>
-            </div>
-            <div className="input-column">
-              {editMode ? (
-                <input
-                  type="text"
-                  name="surname"
-                  value={formData.surname}
-                  onChange={handleInputChange}
-                  style={{ color: 'black' }}
-                />
-              ) : (
-                <span>{formData.surname}</span>
+                <span>{formData.username}</span>
               )}
             </div>
           </div>
@@ -97,8 +77,8 @@ function SettingsPopup({ handleClose }) {
             <div className="input-column">
               {editMode ? (
                 <input
-                  type="email"
-                  name="email"
+                  type="text"
+                  name="surname"
                   value={formData.email}
                   onChange={handleInputChange}
                   style={{ color: 'black' }}
@@ -116,8 +96,8 @@ function SettingsPopup({ handleClose }) {
             <div className="input-column">
               {editMode ? (
                 <input
-                  type="text"
-                  name="avatar"
+                  type="email"
+                  name="email"
                   value={formData.avatar}
                   onChange={handleInputChange}
                   style={{ color: 'black' }}
@@ -135,8 +115,8 @@ function SettingsPopup({ handleClose }) {
             <div className="input-column">
               {editMode ? (
                 <input
-                  type="password"
-                  name="password"
+                  type="text"
+                  name="avatar"
                   value={formData.password}
                   onChange={handleInputChange}
                   style={{ color: 'black' }}
