@@ -15,8 +15,8 @@ function NewNoteDialog({ handleClose, handleConfirm }) {
   const handleCreateNote = async () => {
     // Create an object to represent the note data
     const newNote = {
-      title: title,
-      content: 'user content', // Replace this with your actual note content
+      "title": title,
+      "content": 'user content', // Replace this with your actual note content
     };
   
     // Define the URL and the request headers
@@ -24,8 +24,8 @@ function NewNoteDialog({ handleClose, handleConfirm }) {
     const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkI…TEyfQ.P2NTBq2oQIxgSvISQHQWqD9L_Fw_Y1njIWZF_ZmJR3A'; // Replace with your actual authentication token
   
     const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': token,
+      "Content-Type": "application/json",
+      "Authorization": token,
     };
   
     // Send the POST request
