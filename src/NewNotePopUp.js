@@ -21,11 +21,11 @@ function NewNoteDialog({ handleClose, handleConfirm }) {
   
     // Define the URL and the request headers
     const url = 'https://notesapp343-aceae8559200.herokuapp.com/notes';
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkI…TEyfQ.P2NTBq2oQIxgSvISQHQWqD9L_Fw_Y1njIWZF_ZmJR3A'; // Replace with your actual authentication token
+    const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkI…TEyfQ.P2NTBq2oQIxgSvISQHQWqD9L_Fw_Y1njIWZF_ZmJR3A'; // Replace with your actual authentication token
   
     const headers = {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
+      'Authorization': token,
     };
   
     // Send the POST request
