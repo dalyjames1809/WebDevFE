@@ -48,6 +48,26 @@ function Main() {
     setShowColorPicker(!showColorPicker);
   }
 
+  const [showNewNoteDialog, setShowNewNoteDialog] = useState(false);
+
+  const openNewNoteDialog = () => {
+    setShowNewNoteDialog(true);
+  };
+
+  const closeNewNoteDialog = () => {
+    setShowNewNoteDialog(false);
+  };
+
+  const handleConfirmAddNote = () => {
+    // Add code here to create a new note with the provided title and category
+    // Update your state to include the new note
+    // You can use the state and set state functions you already have in your component
+    // For example, setNotes([...notes, { title, category, checked: false }]);
+    closeNewNoteDialog(); // Close the dialog after adding a note
+  };
+  
+
+
   const [notes, setNotes] = useState([]);
   const [highestId, setHighestId] = useState(0);
 
@@ -144,7 +164,18 @@ function Main() {
         <div className="bg-sky-50 text-white w-80 p-4 flex-col justify-between">
           {/* Buttons */}
           <div className="flex justify-between mb-2">
-            <button onClick={addNote} className="w-1/2 py-2 px-4 bg-sky-600 text-white mr-2 hover:bg-sky-700 mb-2">+ Add Note</button>
+            <button onClick={openNewNoteDialog} className="w-1/2 py-2 px-4 bg-sky-600 text-white mr-2 hover:bg-sky-700 mb-2">+ Add Note</button>
+            {showNewNoteDialog && (
+              <div className="modal-overlay">
+                <div className="modal-content">
+                  <NewNoteDialog
+                    handleClose={closeNewNoteDialog}
+                    handleConfirm={handleConfirmAddNote}
+                  />
+                </div>
+              </div>
+            )}
+
             <button onClick={deleteCheckedNotes} className="w-1/2 py-2 px-4 bg-sky-600 text-white ml-2 hover:bg-sky-700 mb-2">- Delete Note</button>
           </div>
           <div className="mb-6"></div> {/* Adjust the value (2) to your desired spacing */}
