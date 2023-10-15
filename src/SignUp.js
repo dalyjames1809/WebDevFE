@@ -73,7 +73,6 @@ function SignUp() {
     formData.append('username', username);
     formData.append('email', email);
     formData.append('password', password);
-    formData.append('avatar', avatar); // Append the avatar file to the form data
 
     try {
       const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/users/register', {
