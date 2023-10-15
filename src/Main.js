@@ -98,20 +98,18 @@ function Main() {
 
   const handleCheckboxChange = (id) => {
     const updatedNotes = notes.map((note) =>
-      note.id === id ? { ...note, checked: !note.checked } : note
+      note.id === id ? { ...note, checked: !note.checked } : { ...note, checked: false }
     );
     setNotes(updatedNotes);
   
     // Find the note that corresponds to the clicked checkbox
-    const clickedNote = notes.find((note) => note.id === id);
+    const clickedNote = updatedNotes.find((note) => note.id === id);
   
     // If the clicked note is selected, populate the noteContent state with its text
     if (clickedNote.id === selectedNote?.id && clickedNote.checked) {
       setNoteContent(clickedNote.text);
-    } else {
-      // If the clicked note is deselected, clear the noteContent
-      setNoteContent("");
     }
+    
   
     // Set the selectedNote to the clicked note
     setSelectedNote(clickedNote);
