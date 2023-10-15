@@ -54,6 +54,13 @@ function Main() {
     setShowColorPicker(!showColorPicker);
   }
 
+  const handleSave = () => {
+    // Add code here to save the content of the textarea
+    // For example, you can send the content to a server or save it locally.
+    // Implement your save logic here.
+    console.log('Content saved!');
+  }
+
   const [showNewNoteDialog, setShowNewNoteDialog] = useState(false);
 
   const openNewNoteDialog = () => {
@@ -254,6 +261,9 @@ function Main() {
             <button onClick={toggleItalics} style={{marginRight: '10px'}}><i className="fas fa-italic"></i></button>
             <button onClick={toggleColorPicker}><i className="fas fa-paint-brush"></i></button>
             {showColorPicker && <ColorPicker onChange={handleColorChange} />}
+            <button onClick={handleSave} style={{ marginLeft: '10px' }}>
+            <i className="fas fa-save"></i> {/* Add your save icon here */}
+            </button>
           </div>
           <textarea
             className="w-full h-full border border-gray-300 p-2 markup-textarea"
