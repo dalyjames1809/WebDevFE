@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch, Link, Routes } from 'react-router-dom';
 import SignUp from './SignUp'; // Create a SignUp component for the registration page
 import Main from './Main'
