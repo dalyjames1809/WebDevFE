@@ -3,47 +3,65 @@ import './SettingsModal.css';
 import ConfirmationDialog from './DeletePopUp';
 
 function SettingsPopup({ handleClose }) {
-    const [formData, setFormData] = useState({
-      username: 'John',
-      email: 'john.doe@example.com',
-      avatar: 'avatar.jpg',
-      password: '********',
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+  });
+
+  const [editMode, setEditMode] = useState(false);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
     });
-  
-    const [editMode, setEditMode] = useState(false);
-  
-    const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setFormData({
-        ...formData,
-        [name]: value,
+  };
+
+  const handleEdit = () => {
+    setEditMode(true);
+  };
+
+  const handleSave = () => {
+    setEditMode(false);
+    // Add code here to handle saving the edited data
+  };
+
+  const [showConfirmation, setShowConfirmation] = useState(false);
+
+  const handleDeleteAccount = () => {
+    setShowConfirmation(true);
+  };
+
+  const handleConfirmDelete = () => {
+    // Add code here to handle account deletion
+    // ...
+    setShowConfirmation(false); // Close the confirmation dialog after deletion
+  };
+
+  const handleCloseConfirmation = () => {
+    setShowConfirmation(false);
+  };
+
+  // useEffect to fetch user data when the component is mounted
+  useEffect(() => {
+    // Replace 'userId' with the actual user ID you want to fetch
+    fetch(`/users/userId`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        // You may need to include a token for authentication here
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setFormData(data.user); // Update formData with the user data
+      })
+      .catch((error) => {
+        console.error('Error fetching user data:', error);
       });
-    };
-  
-    const handleEdit = () => {
-      setEditMode(true);
-    };
-  
-    const handleSave = () => {
-      setEditMode(false);
-      // Add code here to handle saving the edited data
-    };
-  
-    const [showConfirmation, setShowConfirmation] = useState(false);
-  
-    const handleDeleteAccount = () => {
-      setShowConfirmation(true);
-    }
-  
-    const handleConfirmDelete = () => {
-      // Add code here to handle account deletion
-      // ...
-      setShowConfirmation(false); // Close the confirmation dialog after deletion
-    }
-  
-    const handleCloseConfirmation = () => {
-      setShowConfirmation(false);
-    }
+  }, []);
   
     return (
       <div className="modal-overlay">
