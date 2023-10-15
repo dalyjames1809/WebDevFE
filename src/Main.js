@@ -111,9 +111,11 @@ function Main() {
     // If the clicked note is selected, populate the noteContent state with its text
     if (clickedNote.checked) {
       setNoteContent(clickedNote.content);
+      setNoteName(clickedNote.text);
       setSelectedNote(clickedNote);
     } else {
       // Clear the noteContent when a note is deselected
+      setNoteName("")
       setNoteContent("");
     }
   
