@@ -66,9 +66,31 @@ function Home() {
   return (
     <div className="bg-blue-900 min-h-screen flex justify-center items-center">
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-        {/* ... other form elements ... */}
+        <img
+          src="https://logodix.com/logo/1677281.png"
+          className="w-32 h-32 mx-auto mb-4 rounded-full"
+          alt="external logo"
+        />
+        <h2 className="text-2xl font-semibold mb-4">Login</h2>
         <form onSubmit={handleSubmit}>
-          {/* ... form fields ... */}
+          <div className="mb-4">
+            <label className="block text-gray-600 font-semibold mb-2">Email</label>
+            <input
+              type="text"
+              name="username"
+              className="w-full p-2 border rounded-md"
+              placeholder="Enter your username"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-600 font-semibold mb-2">Password</label>
+            <input
+              type="password"
+              name="password"
+              className="w-full p-2 border rounded-md"
+              placeholder="Enter your password"
+            />
+          </div>
           <button
             type="submit"
             className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
@@ -78,8 +100,22 @@ function Home() {
           {errorMessage && ( // Display error message conditionally
             <div className="text-red-500 mt-2">{errorMessage}</div>
           )}
+          <div className="mb-4">
+            <label className="flex items-center italic">
+              <input
+                type="checkbox"
+                className="mr-2"
+              />
+              Remember me
+            </label>
+          </div>
         </form>
-        {/* ... other elements ... */}
+        <p className="mt-4 text-gray-600">
+          Don't have an account?{' '}
+          <Link className="text-blue-500 hover:underline" to="/register">
+            Sign Up
+          </Link>
+        </p>
       </div>
     </div>
   );
