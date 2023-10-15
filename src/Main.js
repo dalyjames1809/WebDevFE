@@ -59,6 +59,10 @@ function Main() {
   const [showNewNoteDialog, setShowNewNoteDialog] = useState(false);
 
   const openNewNoteDialog = () => {
+    const updatedNotes = notes.map((note) => ({ ...note, checked: false }));
+    setNotes(updatedNotes);
+    setNoteContent(""); // Clear the note content
+    setNotename(""); // Clear the note name
     setShowNewNoteDialog(true);
   };
 
