@@ -58,12 +58,10 @@ function Main() {
     setShowNewNoteDialog(false);
   };
 
-  const handleConfirmAddNote = () => {
-    // Add code here to create a new note with the provided title and category
-    // Update your state to include the new note
-    // You can use the state and set state functions you already have in your component
-    // For example, setNotes([...notes, { title, category, checked: false }]);
-    closeNewNoteDialog(); // Close the dialog after adding a note
+  const handleConfirmAddNote = (noteName) => {
+    const newNote = { id: highestId + 1, text: noteName, checked: false };
+    addNote(newNote);
+    closeNewNoteDialog();
   };
   
 
@@ -71,8 +69,7 @@ function Main() {
   const [notes, setNotes] = useState([]);
   const [highestId, setHighestId] = useState(0);
 
-  const addNote = () => {
-    const newNote = { id: highestId + 1, text: `Note ${highestId + 1}` };
+  const addNote = (newNote) => {
   
     if (sortByRecent) {
       setNotes([newNote, ...notes]);
