@@ -6,15 +6,52 @@ function NewNoteDialog({ handleClose, handleConfirm }) {
   // Define a state variable to store the title input value
   const [title, setTitle] = useState('');
 
-  const handleTitleChange = (e) => {
+  const handleTitleChange = async (e) => {
     // Update the title state when the input value changes
     setTitle(e.target.value);
+    
   };
 
-  const handleCreateNote = () => {
-    // Pass the title to the handleConfirm function
-    handleConfirm(title);
+  const handleCreateNote = async () => {
+    // Create an object to represent the note data
+    const newNote = {
+      title: title,
+      content: 'user content', // Replace this with your actual note content
+    };
+  
+    // Define the URL and the request headers
+    const url = 'https://notesapp343-aceae8559200.herokuapp.com/notes';
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkI…TEyfQ.P2NTBq2oQIxgSvISQHQWqD9L_Fw_Y1njIWZF_ZmJR3A'; // Replace with your actual authentication token
+  
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    };
+  
+    // Send the POST request
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(newNote),
+      });
+  
+      if (response.ok) {
+        // Note created successfully
+        console.log('Note created successfully');
+        // Close the dialog or perform other actions
+        handleClose();
+      } else {
+        // Handle the error if the request is not successful
+        console.error('Failed to create the note');
+        // You may want to show an error message to the user
+      }
+    } catch (error) {
+      console.error('Error creating the note:', error);
+      // Handle any network or other errors here
+    }
   };
+  
 
   return (
     <div className="confirmation-dialog">
