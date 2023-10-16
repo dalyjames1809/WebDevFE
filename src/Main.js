@@ -133,8 +133,6 @@ function Main() {
   };
   
   
-  
-
   const handleSortClick = () => {
     setSortByRecent(!sortByRecent);
     setNotes(prevNotes => [...prevNotes].reverse());
