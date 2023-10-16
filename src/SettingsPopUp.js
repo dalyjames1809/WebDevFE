@@ -35,7 +35,7 @@ function SettingsPopup({ handleClose }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({ username: formData.username, email: formData.email, password: formData.password }),
       });
 
     if (response.ok) {
@@ -66,25 +66,6 @@ function SettingsPopup({ handleClose }) {
   const handleCloseConfirmation = () => {
     setShowConfirmation(false);
   };
-
-  // useEffect to fetch user data when the component is mounted
-  useEffect(() => {
-    // Replace 'userId' with the actual user ID you want to fetch
-    fetch(`/users/bob`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        // You may need to include a token for authentication here
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setFormData(data.user); // Update formData with the user data
-      })
-      .catch((error) => {
-        console.error('Error fetching user data:', error);
-      });
-  }, []);
   
     return (
       <div className="modal-overlay">
