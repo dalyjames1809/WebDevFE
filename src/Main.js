@@ -147,17 +147,18 @@ function Main() {
           title: selectedNote.title,
           content: noteContent,
         };
-  
+        
+        const auth = 'Bearer ' + token;
         // Send the POST request
         const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/notes', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
+            'Authorization': auth,
           },
           body: JSON.stringify(noteData),
         });
-  
+        console.log(body)
         if (response.ok) {
           const data = await response.json();
           console.log('Note saved:', data.message);
