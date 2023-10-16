@@ -135,10 +135,43 @@ function Main() {
   
   };
 
-  const handleSaveNoteChanges = () => {
+  const handleSaveNoteChanges = async () => {
     // When you save changes, update the clickedNote's text with the content in the text box.
-
     if (selectedNote) {
+      try {
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2MiwiZXhwIjoxNjk3NDUyMDU3fQ.75ncPvlx6uwAcPbWaV1JbUGOBi1Px0XdQ98Eao798QQ';
+  
+        // Define the data to be sent in the POST request
+        const noteData = {
+          title: selectedNote.title,
+          content: noteContent,
+        };
+  
+        // Send the POST request
+        const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/notes', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+          body: JSON.stringify(noteData),
+        });
+  
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Note saved:', data.message);
+          // You may want to handle the response data or do other actions here
+        } else {
+          const errorData = await response.json();
+          console.error('Note saving failed:', errorData.message);
+          // Handle the error as needed
+        }
+      } catch (error) {
+        console.error('Error saving note:', error);
+        // Handle the error as needed
+      }
+  
+      // Now, update the note content in your app's state
       const updatedNotes = notes.map((note) =>
         note.id === selectedNote.id ? { ...note, content: noteContent } : note
       );
