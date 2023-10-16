@@ -32,8 +32,8 @@ function SettingsPopup({ handleClose }) {
 
   const handleSave = async (e) => {
     try {
-      const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/users/updateUser', {
-        method: 'POST',
+      const response = await fetch(`https://notesapp343-aceae8559200.herokuapp.com/users/${userID}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
