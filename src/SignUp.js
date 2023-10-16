@@ -6,38 +6,26 @@ Modal.setAppElement('#root');
 
 function SignUp() {
   const navigate = useNavigate();
-  const [avatar, setAvatar] = useState(null);
+  const [selectedAvatar, setSelectedAvatar] = useState(null); // Store the selected avatar image
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [validationError, setValidationError] = useState('');
-  const [imageValidationError, setImageValidationError] = useState(''); // Add image validation state
 
   const goBack = () => {
     navigate('/');
   };
 
-  const handleAvatarChange = (e) => {
-    const file = e.target.files[0];
-    setAvatar(file);
-    setImageValidationError(''); // Clear previous image validation error
+  const handleAvatarSelect = (avatar) => {
+    setSelectedAvatar(avatar);
   };
 
   const isEmailValid = (email) => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     return emailRegex.test(email);
-  };
-
-  const isImageValid = (image) => {
-    if (!image) {
-      setValidationError('Please upload an avatar image');
-      return false;
-    }
-
-    return true;
-  };
+  }
 
   const isPasswordValid = (password) => {
     return password.length >= 8;
-  };
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,6 +34,7 @@ function SignUp() {
       username: e.target.username.value,
       email: e.target.email.value,
       password: e.target.password.value,
+      avatar: selectedAvatar, // Add the selected avatar to the form data
     };
 
     const username = e.target.username.value;
@@ -70,7 +59,8 @@ function SignUp() {
       return;
     }
 
-    if (!isImageValid(avatar)) { // Validate the uploaded avatar
+    if (!selectedAvatar) {
+      setValidationError('Please select an avatar');
       openModal();
       return;
     }
@@ -104,9 +94,16 @@ function SignUp() {
   const closeModal = () => {
     setModalIsOpen(false);
     setValidationError('');
-    setImageValidationError(''); // Clear image validation error
   };
 
+  // Define a list of avatar images to choose from
+  const avatarImages = [
+    'Avatar_1.png',
+    'Avatar_2.jpg',
+    'Avatar_3.png',
+    'Avatar_4.png',
+    'Avatar_5.png'
+  ];
 
   return (
     <div className="bg-orange-700 min-h-screen flex justify-center items-center relative">
@@ -148,12 +145,28 @@ function SignUp() {
           </div>
           <div className="mb-4">
             <label className="block text-gray-600 font-semibold mb-2">Avatar</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleAvatarChange}
-              className="w-full p-2 border rounded-md"
-            />
+            <div className="flex space-x-4">
+              {avatarImages.map((avatar, index) => (
+                <label key={index} className="cursor-pointer">
+                  <input
+                    type="radio"
+                    name="avatar"
+                    value={avatar}
+                    checked={selectedAvatar === avatar}
+                    onChange={() => handleAvatarSelect(avatar)}
+                    style={{ display: 'none' }}
+                  />
+                  <img
+                    src={avatar}
+                    alt={`Avatar ${index + 1}`}
+                    className="w-12 h-12 rounded-full cursor-pointer"
+                  />
+                  {selectedAvatar === avatar && (
+                    <div className="selected-icon">✔</div>
+                )}
+                </label>
+              ))}
+            </div>
           </div>
           <div className="mb-4">
             <label className="block text-gray-600 font-semibold mb-2">Password</label>
@@ -176,45 +189,46 @@ function SignUp() {
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         style={{
-        content: {
-          width: '300px',
-          height: '150px',
-          margin: 'auto',
-          border: '1px solid #ccc',
-          background: 'white',
-          borderRadius: '5px',
-          padding: '20px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center', // Center the content vertically
-         },
-        overlay: {
-          backgroundColor: 'rgba(0, 0, 0, 0.6)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        },
-      }}
+          content: {
+            width: '300px',
+            height: '150px',
+            margin: 'auto',
+            border: '1px solid #ccc',
+            background: 'white',
+            borderRadius: '5px',
+            padding: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center', // Center the content vertically
+          },
+          overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.6)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          },
+        }}
       >
-      <p>{validationError}</p>
-      <button
-        onClick={closeModal}
-        style={{
-          color: 'white',
-          background: 'red',
-          borderRadius: '10px',
-          marginTop: '10px',
-          padding: '10px 20px',
-          cursor: 'pointer',
-      }}
-    >
-      Close
-    </button>
-    </Modal>
+        <p>{validationError}</p>
+        <button
+          onClick={closeModal}
+          style={{
+            color: 'white',
+            background: 'red',
+            borderRadius: '10px',
+            marginTop: '10px',
+            padding: '10px 20px',
+            cursor: 'pointer',
+          }}
+        >
+          Close
+        </button>
+      </Modal>
     </div>
   );
 }
 
 export default SignUp;
+
 
