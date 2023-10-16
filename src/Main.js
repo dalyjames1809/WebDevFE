@@ -218,15 +218,15 @@ function Main() {
 
   const handleSearch = () => {
     // Filter the notes based on the search query
-    resetSearch();
-    serOrigNote(notes);
-
     if (!searchQuery){
       setValidationError('Please provide a note title you are search for!');
       openModal();
       return;
     }
 
+    resetSearch();
+    serOrigNote(notes);
+    
     const filteredNotes = notes.filter((note) =>
       note.text.toLowerCase().includes(searchQuery.toLowerCase())
     );
