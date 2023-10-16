@@ -317,6 +317,13 @@ function Main() {
           <h2 className="text-4xl font-funky mb-4 inline">{username ? `Welcome, ${username}` : 'Welcome'}</h2>
         </div>
         <div className="flex items-center">
+          <div className="flex items-center ml-4">
+          <img
+            src="Avatar_2.jpg" // URL of the external logo
+            className="w-16 h-16 rounded-full mr-4"
+            alt="external logo"
+          />
+          </div>
           <button className="sign-out-button" onClick={handleSignOut}>Sign Out</button>
           {showConfirmation && (
           <div className="modal-overlay">
