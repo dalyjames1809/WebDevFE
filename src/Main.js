@@ -158,7 +158,7 @@ function Main() {
           },
           body: JSON.stringify(noteData),
         });
-        console.log(body)
+        console.log(JSON.stringify(noteData));
         if (response.ok) {
           const data = await response.json();
           console.log('Note saved:', data.message);
