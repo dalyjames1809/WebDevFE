@@ -212,6 +212,34 @@ function Main() {
     setShowConfirmation(false);
   }
 
+  const [searchQuery, setSearchQuery] = useState('');
+  const [originalNotes, serOrigNote] = useState('');
+
+  const handleSearch = () => {
+    // Filter the notes based on the search query
+    resetSearch();
+    serOrigNote(notes);
+
+    if (!searchQuery){
+      setValidationError('Please provide a note title you are search for!');
+      openModal();
+      return;
+    }
+
+    const filteredNotes = notes.filter((note) =>
+      note.text.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    // Update the displayed notes
+    setNotes(filteredNotes);
+  };
+
+  const resetSearch = () => {
+    // Clear the search query and display all notes
+    setSearchQuery('');
+    setNotes(originalNotes); // Assuming "originalNotes" contains the unfiltered list of notes
+  };
+
   return (
     <div className="flex flex-col flex-1">
       {/* Top Blue Bar */}
@@ -273,8 +301,23 @@ function Main() {
             type="text"
             className="bg-white border border-gray-300 p-2 mb-2 input-box w-full"
             placeholder="Search Notes..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
-           <button className="bg-sky-600 text-white py-2 px-4 hover:bg-sky-700 w-full">Search</button>
+        <div className="flex"> {/* Container for search and reset buttons */}
+          <button
+            className="bg-sky-600 text-white py-2 px-24 hover:bg-sky-700" /* Increase the width using px */
+            onClick={handleSearch}
+          >
+            Search
+          </button>
+          <button
+            className="bg-gray-400 text-white py-2 px-3 hover:bg-gray-500 ml-2"
+            onClick={resetSearch}
+          >
+            <i className="fas fa-redo"></i> {/* Replace with your circular arrow icon (refresh) */}
+          </button>
+        </div>
             {/* Label and Sort Icon */}
             <div className="mb-6"></div> {/* Adjust the value (2) to your desired spacing */}
             <div className="flex items-center mb-6">
