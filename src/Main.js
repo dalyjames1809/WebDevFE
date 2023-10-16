@@ -141,7 +141,7 @@ function Main() {
     // When you save changes, update the clickedNote's text with the content in the text box.
     if (selectedNote) {
       try {
-       const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2MiwiZXhwIjoxNjk3NDU1NzcwfQ.qTHTVWhm4-IwqpKg4026jP_ymhPi7eCBIP5RWIbv2z4';
+       const token = userToken;
   
         // Define the data to be sent in the POST request
         const noteData = {
