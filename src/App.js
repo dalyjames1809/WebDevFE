@@ -25,7 +25,7 @@ function App() {
 function Home() {
   const [errorMessage, setErrorMessage] = useState(''); // State for error message
   const navigate = useNavigate();
-  const { setUsername , setUserToken, setName } = useUser();
+  const { setUsername , setUserToken, setName, setUserID } = useUser();
   const [rememberMe, setRememberMe] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -63,6 +63,8 @@ function Home() {
         setUserToken(token);
         const name = data.username;
         setName(name);
+        const user_id = data.userID;
+        setUserID(user_id);
         navigate('/home');
       } else {
         // Handle login failure here.
