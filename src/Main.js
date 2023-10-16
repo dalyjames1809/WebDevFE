@@ -369,7 +369,7 @@ function Main() {
         )}
         </div>
         <div className="mr-4 ml-20">
-          <h2 className="text-4xl font-funky mb-4 inline">{username ? `Welcome, ${username}` : 'Welcome, dylancoetzee@gmail.com'}</h2>
+          <h2 className="text-4xl font-funky mb-4 inline">{username ? `Welcome, ${username}` : 'Welcome'}</h2>
         </div>
 
         <div className="flex items-center">
