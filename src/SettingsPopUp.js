@@ -11,7 +11,7 @@ function SettingsPopup({ handleClose }) {
     username: name,
     email: username,
     avatar: '',
-    password: '',
+    password: '********',
   });
 
   const [editMode, setEditMode] = useState(false);
@@ -30,7 +30,26 @@ function SettingsPopup({ handleClose }) {
 
   const handleSave = () => {
     setEditMode(false);
-    // Add code here to handle saving the edited data
+    try {
+      const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/users/updateUser', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, email, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Edit successful:', data.message);
+        navigate('/');
+      } else {
+        const errorData = await response.json();
+        console.error('Edit failed:', errorData.message);
+      }
+      } catch (error) {
+      console.error('Error edit user:', error);
+    }
   };
 
   const [showConfirmation, setShowConfirmation] = useState(false);
