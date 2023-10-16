@@ -252,17 +252,17 @@ function Main() {
   const [showAddFriendDialog, setAddFriendDialog] = useState(false);
 
   const OpenNewFriendPopUp = () => {
-    setAddFriendDialogAddFriendDialog(true)
+    setAddFriendDialogAddFriendDialog(true);
     // Add your logic for adding friends here
   };
 
   const handleNewFriendPopUp = () => {
-    
+
     closeNewFriendPopUp();
   };
 
   const closeNewFriendPopUp = () => {
-    setAddFriendDialog(false)
+    setAddFriendDialog(false);
     // Add your logic for adding friends here
   };
   
@@ -334,7 +334,7 @@ function Main() {
           />
         </div>
         <button className="add-friend-button" onClick={OpenNewFriendPopUp}>+Friend</button>
-        {showAddFriendPopUp && (
+        {AddFriendPopUp && (
               <div className="modal-overlay">
                 <div className="modal-content">
                   <AddFriendPopUp
