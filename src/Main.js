@@ -16,12 +16,11 @@ function Main() {
   const { username , userToken, userID} = useUser();
   const [notename, setNoteName] = useState("");
   const [selectedNote, setSelectedNote] = useState(null);
-
+  const [categories, setCategories] = useState([]);
   const [noteContent, setNoteContent] = useState("");
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [validationError, setValidationError] = useState('');
-
 
   const socket = new WebSocket('wss://notesapp343-aceae8559200.herokuapp.com');  // Replace with your WebSocket server URL
 
@@ -49,72 +48,110 @@ function Main() {
     setValidationError('');
   };
 
-  useEffect(() => {
-    // Function to fetch all notes from the database
-    const fetchAllNotes = async () => {
-      try {
-        const token = userToken;
-        const auth = 'Bearer ' + token;
-        const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/notes?orderBy=recent', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': auth,
-          },
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setNotes(data); // Update the 'notes' state with the fetched notes
-        } else {
-          const errorData = await response.json();
-          console.error('Error fetching notes:', errorData.message);
-          // Handle the error as needed
-        }
-      } catch (error) {
-        console.error('Error fetching notes:', error);
+  const fetchAllNotes = async (userToken) => {
+    try {
+      const auth = 'Bearer ' + userToken;
+      const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/notes?orderBy=recent', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': auth,
+        },
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        return data;
+      } else {
+        const errorData = await response.json();
+        console.error('Error fetching notes:', errorData.message);
         // Handle the error as needed
+        return null;
       }
-    };
+    } catch (error) {
+      console.error('Error fetching notes:', error);
+      // Handle the error as needed
+      return null;
+    }
+  };
+  
+  const fetchUserCategories = async (userToken, userID) => {
+    try {
+      const auth = 'Bearer ' + userToken;
+      const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/categories', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': auth,
+        },
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        // Filter categories by user_id
+        const filteredCategories = data.filter(category => category.user_id === userID);
+        return filteredCategories;
+      } else {
+        const errorData = await response.json();
+        console.error('Error fetching categories:', errorData.message);
+        // Handle the error as needed
+        return null;
+      }
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+      // Handle the error as needed
+      return null;
+    }
+  };
+  
+  // Then, inside your component, you can use these functions like this:
+  
+  useEffect(() => {
+    // Fetch data initially when the component mounts
+    async function fetchData() {
+      const notesData = await fetchAllNotes(userToken);
+      if (notesData) {
+        setNotes(notesData);
+      }
+    }
 
-    fetchAllNotes(); // Call the function to fetch notes when the component mounts
+    fetchData();
+
+    // Set up an interval to fetch data every 10 seconds for notes
+    const notesInterval = setInterval(async () => {
+      const notesData = await fetchAllNotes(userToken);
+      if (notesData) {
+        setNotes(notesData);
+      }
+    }, 5000); // 10 seconds in milliseconds
+
+    // Cleanup the interval when the component unmounts
+    return () => clearInterval(notesInterval);
   }, [userToken]);
 
-  const [categories, setCategories] = useState([]); // State to store fetched categories
-
   useEffect(() => {
-    const fetchUserCategories = async () => {
-      try {
-        const token = userToken;
-        const auth = 'Bearer ' + token;
-        const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/categories', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': auth,
-          },
-        });
-  
-        if (response.ok) {
-          const data = await response.json();
-          console.log(userID)
-          // Filter categories by user_id
-          const filteredCategories = data.filter(category => category.user_id === userID);
-          
-          setCategories(filteredCategories); // Update the 'categories' state with the filtered categories
-        } else {
-          const errorData = await response.json();
-          console.error('Error fetching categories:', errorData.message);
-          // Handle the error as needed
-        }
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-        // Handle the error as needed
+    // Fetch data initially when the component mounts
+    async function fetchData() {
+      const categoriesData = await fetchUserCategories(userToken, userID);
+      if (categoriesData) {
+        setCategories(categoriesData);
       }
-    };
-  
-    fetchUserCategories(); // Call the function to fetch and filter categories when the component mounts
+    }
+
+    fetchData();
+
+    // Set up an interval to fetch data every 10 seconds for categories
+    const categoriesInterval = setInterval(async () => {
+      const categoriesData = await fetchUserCategories(userToken, userID);
+      if (categoriesData) {
+        setCategories(categoriesData);
+      }
+    },5000); // 10 seconds in milliseconds
+
+    // Cleanup the interval when the component unmounts
+    return () => clearInterval(categoriesInterval);
   }, [userToken, userID]);
+  
   
 
   
@@ -165,6 +202,7 @@ function Main() {
 
   const closeNewNoteDialog = () => {
     setShowNewNoteDialog(false);
+
   };
 
   const handleConfirmAddNote = (noteName) => {
@@ -179,6 +217,7 @@ function Main() {
     addNote(newNote);
     setSelectedNote(newNote); // Select the newly added note
     closeNewNoteDialog();
+
   };
   
 

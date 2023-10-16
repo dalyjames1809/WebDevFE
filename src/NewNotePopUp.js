@@ -12,6 +12,7 @@ function NewNoteDialog({ handleClose, handleConfirm }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [validationError, setValidationError] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(''); // Initialize it with a default value
+  const [newCategory, setNewCategory] = useState(''); // New state for the input field
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -26,39 +27,43 @@ function NewNoteDialog({ handleClose, handleConfirm }) {
     setTitle(e.target.value);
   };
 
+  const handleNewCategoryChange = (e) => {
+    setNewCategory(e.target.value);
+  };
+
   const [categories, setCategories] = useState([]); // State to store fetched categories
 
-  useEffect(() => {
-    const fetchUserCategories = async () => {
-      try {
-        const token = userToken;
-        const auth = 'Bearer ' + token;
-        const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/categories', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': auth,
-          },
-        });
-  
-        if (response.ok) {
-          const data = await response.json();
-          console.log(userID)
-          // Filter categories by user_id
-          const filteredCategories = data.filter(category => category.user_id === userID);
-          
-          setCategories(filteredCategories); // Update the 'categories' state with the filtered categories
-        } else {
-          const errorData = await response.json();
-          console.error('Error fetching categories:', errorData.message);
-          // Handle the error as needed
-        }
-      } catch (error) {
-        console.error('Error fetching categories:', error);
+  const fetchUserCategories = async () => {
+    try {
+      const token = userToken;
+      const auth = 'Bearer ' + token;
+      const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/categories', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': auth,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(userID)
+        // Filter categories by user_id
+        const filteredCategories = data.filter(category => category.user_id === userID);
+
+        setCategories(filteredCategories); // Update the 'categories' state with the filtered categories
+      } else {
+        const errorData = await response.json();
+        console.error('Error fetching categories:', errorData.message);
         // Handle the error as needed
       }
-    };
-  
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+      // Handle the error as needed
+    }
+  };
+
+  useEffect(() => {
     fetchUserCategories(); // Call the function to fetch and filter categories when the component mounts
   }, [userToken, userID]);
 
@@ -119,8 +124,51 @@ function NewNoteDialog({ handleClose, handleConfirm }) {
     }
   };
   
-  
+  const handleCreateCategory = async () => {
+    if (!newCategory) {
+      setValidationError('Please enter a category name');
+      openModal();
+      return;
+    }
 
+    try {
+      const token = userToken;
+
+      const categoryData = {
+        name: newCategory,
+        user_id: userID,
+      };
+
+      const auth = 'Bearer ' + token;
+      const response = await fetch(
+        'https://notesapp343-aceae8559200.herokuapp.com/categories',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': auth,
+          },
+          body: JSON.stringify(categoryData),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Category created:', data.message);
+        setNewCategory(''); // Clear the input field after creating the category
+        fetchUserCategories();
+
+      } else {
+        const errorData = await response.json();
+        console.error('Category creation failed:', errorData.message);
+        // Handle the error as needed
+      }
+    } catch (error) {
+      console.error('Error creating category:', error);
+      // Handle the error as needed
+    }
+  };
+  
 
 
   return (
@@ -140,7 +188,7 @@ function NewNoteDialog({ handleClose, handleConfirm }) {
             onChange={handleTitleChange}
           />
         </div>
-        <label>Select the category for the new note:</label>
+        <label>Select existing category for the new note:</label>
         <select
           className="bg-white border border-gray-300 input-box w-full"
           style={{ fontSize: '16px' }}
@@ -158,6 +206,23 @@ function NewNoteDialog({ handleClose, handleConfirm }) {
             </option>
           ))}
         </select>
+        <label>Create a new category for the note:</label>
+        <div className="input-column">
+          <input
+            type="text"
+            name="newCategory"
+            placeholder="Enter category name..."
+            style={{ color: 'black', fontSize: '16px' }}
+            value={newCategory}
+            onChange={handleNewCategoryChange}
+          />
+          <button
+            className="create-category-button"
+            onClick={handleCreateCategory}
+          >
+            Create Category
+          </button>
+        </div>
 
       </div>
       <div className="button-container" style={{ marginTop: '20px' }}>
