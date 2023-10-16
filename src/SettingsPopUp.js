@@ -3,20 +3,35 @@ import './SettingsModal.css';
 import ConfirmationDialog from './DeletePopUp';
 import { useUser } from './UserContext';
 import { useNavigate } from 'react-router-dom';
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root');
 
 function SettingsPopup({ handleClose }) {
 
   const { username, name, userID } = useUser();
   const navigate = useNavigate();
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [validationError, setValidationErrors] = useState('');
   
   const [formData, setFormData] = useState({
     username: name,
     email: username,
     avatar: '',
-    password: '********',
+    password: '*******',
   });
 
   const [editMode, setEditMode] = useState(false);
+
+  const validateEmail = (email) => {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return emailPattern.test(email);
+  };
+
+  const validatePassword = (password) => {
+    return password.length >= 8;
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -28,9 +43,29 @@ function SettingsPopup({ handleClose }) {
 
   const handleEdit = () => {
     setEditMode(true);
+    setFormData({
+      ...formData,
+      password: '',
+    });
   };
 
   const handleSave = async (e) => {
+    if (!formData.username) {
+      setValidationErrors('Username is required');
+      openModal();
+      return;
+    }
+    if (!formData.email || !validateEmail(formData.email)) {
+      setValidationErrors('Invalid or missing email');
+      openModal();
+      return;
+    }
+    if (!formData.password || !validatePassword(formData.password)) {
+      setValidationErrors('Password must be at least 8 characters long');
+      openModal();
+      return;
+    }
+
     console.log(userID);
     try {
       const response = await fetch(`https://notesapp343-aceae8559200.herokuapp.com/users/${userID}`, {
@@ -82,7 +117,16 @@ function SettingsPopup({ handleClose }) {
   const handleCloseConfirmation = () => {
     setShowConfirmation(false);
   };
-  
+
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+    setValidationErrors('');
+  };
+
     return (
       <div className="modal-overlay">
         <div className="modal-content">
@@ -153,7 +197,7 @@ function SettingsPopup({ handleClose }) {
             <div className="input-column">
               {editMode ? (
                 <input
-                  type="text"
+                  type="password"
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
@@ -182,6 +226,47 @@ function SettingsPopup({ handleClose }) {
           </div>
         )}
         </div>
+        <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={{
+          content: {
+            width: '300px',
+            height: '150px',
+            margin: 'auto',
+            border: '1px solid #ccc',
+            background: 'white',
+            borderRadius: '5px',
+            padding: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center', // Center the content vertically
+          },
+          overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.6)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          },
+        }}
+      >
+        <p>{validationError}</p>
+        <button
+          onClick={closeModal}
+          style={{
+            color: 'white',
+            background: 'red',
+            borderRadius: '10px',
+            marginTop: '10px',
+            padding: '10px 20px',
+            cursor: 'pointer',
+          }}
+        >
+          Close
+        </button>
+      </Modal>
+
       </div>
     );
   }
