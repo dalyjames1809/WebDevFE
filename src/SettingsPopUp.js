@@ -60,7 +60,7 @@ function SettingsPopup({ handleClose }) {
     setShowConfirmation(true);
   };
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async (e) => {
     try {
       const response = await fetch(`https://notesapp343-aceae8559200.herokuapp.com/users/${userID}`, {
         method: 'DELETE',
