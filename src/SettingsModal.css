@@ -82,3 +82,26 @@
   .delete-button:hover {
     background-color: #009eb3;
   }
+
+  .send-request-button {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .send-request-button:hover {
+    background-color: #0056b3;
+  }
+
+  .settings-heading {
+    font-size: 2.5em; /* Adjust the font size as needed */
+    position: absolute;
+    top: 10px; /* Adjust the top position as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+  }
