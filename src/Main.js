@@ -79,6 +79,39 @@ function Main() {
 
     fetchAllNotes(); // Call the function to fetch notes when the component mounts
   }, [userToken]);
+
+  const [categories, setCategories] = useState([]); // State to store fetched categories
+
+  useEffect(() => {
+    const fetchUserCategories = async () => {
+      try {
+        const token = userToken;
+        const auth = 'Bearer ' + token;
+        const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/categories', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': auth,
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setCategories(data); // Update the 'categories' state with the fetched categories
+        } else {
+          const errorData = await response.json();
+          console.error('Error fetching categories:', errorData.message);
+          // Handle the error as needed
+        }
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+        // Handle the error as needed
+      }
+    };
+
+    fetchUserCategories(); // Call the function to fetch categories when the component mounts
+  }, [userToken]);
+
   
   function changeFontSize(direction) {
     var textarea = document.querySelector('.markup-textarea');
@@ -452,12 +485,15 @@ function Main() {
             </div>
         </div>
 
-      <label className="text-sky-600 font-bold">Filter Notes by Category:</label>
+        <label className="text-sky-600 font-bold">Filter Notes by Category:</label>
       <div className="mb-2"></div> {/* Adjust the value (2) to your desired spacing */}
       <select className="bg-white border border-gray-300 p-2 input-box w-full">
         <option value="category1">All Notes</option>
-        <option value="category2">Category 1</option>
-        <option value="category3">Category 2</option>
+        {categories.map((category) => (
+          <option key={category.id} value={category.id}>
+            {category.name}
+          </option>
+        ))}
       </select>
 
       <div className="mb-8"></div> {/* Adjust the value (2) to your desired spacing */}
