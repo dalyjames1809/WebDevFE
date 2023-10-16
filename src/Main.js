@@ -22,6 +22,24 @@ function Main() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [validationError, setValidationError] = useState('');
 
+
+  const socket = new WebSocket('wss://notesapp343-aceae8559200.herokuapp.com');  // Replace with your WebSocket server URL
+
+  socket.addEventListener('open', (event) => {
+    console.log('WebSocket connection opened:', event);
+  });
+
+  socket.addEventListener('message', (event) => {
+    const data = JSON.parse(event.data);
+    console.log('Received message from server:', data);
+
+    // Handle the received message, e.g., update the UI with the new note data
+  });
+
+  socket.addEventListener('close', (event) => {
+    console.log('WebSocket connection closed:', event);
+  });
+
   const openModal = () => {
     setModalIsOpen(true);
   };
@@ -257,7 +275,6 @@ function Main() {
   };
 
   const handleNewFriendPopUp = () => {
-
     closeNewFriendPopUp();
   };
 
