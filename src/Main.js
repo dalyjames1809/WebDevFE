@@ -7,13 +7,12 @@ import ConfirmationDialog from './SignOutPopUp';
 import NewNoteDialog from './NewNotePopUp';
 import { useUser } from './UserContext';
 import Modal from 'react-modal';
-import AddFriendPopUp from './AddFriendPopUp';
 
 Modal.setAppElement('#root');
 
 function Main() {
 
-  const { username , userToken } = useUser();
+  const { username , userToken} = useUser();
   const [notename, setNoteName] = useState("");
   const [selectedNote, setSelectedNote] = useState(null);
 
@@ -246,25 +245,6 @@ function Main() {
       openModal();
     }
   };
-
-
-
-  const [showAddFriendDialog, setAddFriendDialog] = useState(false);
-
-  const OpenNewFriendPopUp = () => {
-    setAddFriendDialog(true);
-    // Add your logic for adding friends here
-  };
-
-  const handleNewFriendPopUp = () => {
-
-    closeNewFriendPopUp();
-  };
-
-  const closeNewFriendPopUp = () => {
-    setAddFriendDialog(false);
-    // Add your logic for adding friends here
-  };
   
   
   const handleSortClick = () => {
@@ -333,28 +313,18 @@ function Main() {
             alt="external logo"
           />
         </div>
-   //     <button className="add-friend-button" onClick={OpenNewFriendPopUp}>+Friend</button>
-   //     {AddFriendPopUp && (
-   //           <div className="modal-overlay">
-  //              <div className="modal-content">
-  //                <AddFriendPopUp
- //                   handleClose={closeNewFriendPopUp}
- //                   handleConfirm={handleNewFriendPopUp}
-//                  />
-//                </div>
-//              </div>
-//            )}
         <div className="mr-4 ml-20">
-          <h2 className="text-4xl font-funky mb-4 inline">{username ? `Welcome, ${username}` : 'Welcome'}</h2>
+          <h2 className="text-4xl font-funky mb-4 inline">{username ? `Welcome, ${username}` : 'Welcome, dylancoetzee@gmail.com'}</h2>
         </div>
+
         <div className="flex items-center">
-          <div className="flex items-center ml-4">
+        <div className="flex items-center ml-4">
           <img
-            src="Avatar_2.jpg" // URL of the external logo
+            src="Avatar_1.png" // URL of the external logo
             className="w-16 h-16 rounded-full mr-4"
             alt="external logo"
-          />
-          </div>
+        />
+        </div>
           <button className="sign-out-button" onClick={handleSignOut}>Sign Out</button>
           {showConfirmation && (
           <div className="modal-overlay">
