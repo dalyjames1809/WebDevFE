@@ -82,7 +82,7 @@ function SettingsPopup({ handleClose }) {
               {editMode ? (
                 <input
                   type="text"
-                  name="name"
+                  name="username"
                   value={formData.username}
                   onChange={handleInputChange}
                   style={{ color: 'black' }}
@@ -101,7 +101,7 @@ function SettingsPopup({ handleClose }) {
               {editMode ? (
                 <input
                   type="text"
-                  name="surname"
+                  name="email"
                   value={formData.email}
                   onChange={handleInputChange}
                   style={{ color: 'black' }}
@@ -119,8 +119,8 @@ function SettingsPopup({ handleClose }) {
             <div className="input-column">
               {editMode ? (
                 <input
-                  type="email"
-                  name="email"
+                  type="text"
+                  name="avatar"
                   value={formData.avatar}
                   onChange={handleInputChange}
                   style={{ color: 'black' }}
@@ -139,7 +139,7 @@ function SettingsPopup({ handleClose }) {
               {editMode ? (
                 <input
                   type="text"
-                  name="avatar"
+                  name="password"
                   value={formData.password}
                   onChange={handleInputChange}
                   style={{ color: 'black' }}
