@@ -6,8 +6,12 @@ import SettingsPopup from './SettingsPopUp';
 import ConfirmationDialog from './SignOutPopUp';
 import NewNoteDialog from './NewNotePopUp';
 import { useUser } from './UserContext';
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root');
 
 function Main() {
+
   const { username } = useUser();
   const [notename, setNoteName] = useState("");
   // State to manage selected note and its content
@@ -15,6 +19,17 @@ function Main() {
 
   const [noteContent, setNoteContent] = useState("");
 
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [validationError, setValidationError] = useState('');
+
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+    setValidationError('');
+  };
   
   function changeFontSize(direction) {
     var textarea = document.querySelector('.markup-textarea');
@@ -122,12 +137,15 @@ function Main() {
 
   const handleSaveNoteChanges = () => {
     // When you save changes, update the clickedNote's text with the content in the text box.
+
     if (selectedNote) {
       const updatedNotes = notes.map((note) =>
         note.id === selectedNote.id ? { ...note, content: noteContent } : note
       );
       setNotes(updatedNotes);
       console.log('Content saved!');
+      setValidationError('Content saved!');
+      openModal();
     }
   };
   
@@ -288,9 +306,48 @@ function Main() {
           />
         </div>
       </div>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={{
+          content: {
+            width: '300px',
+            height: '150px',
+            margin: 'auto',
+            border: '1px solid #ccc',
+            background: 'white',
+            borderRadius: '5px',
+            padding: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+          },
+          overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.6)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          },
+        }}
+      >
+        <p>{validationError}</p>
+        <button
+          onClick={closeModal}
+          style={{
+            color: 'white',
+            background: 'red',
+            borderRadius: '10px',
+            marginTop: '10px',
+            padding: '10px 20px',
+            cursor: 'pointer',
+          }}
+        >
+          Close
+        </button>
+      </Modal>
     </div>
   );
 }
 
 export default Main;
-
