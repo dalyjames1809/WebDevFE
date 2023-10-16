@@ -129,7 +129,7 @@ function Main() {
   };
 
   const handleConfirmAddNote = (noteName) => {
-    const [highestId, setHighestId] = useState(0);
+    //const [highestId, setHighestId] = useState(0);
     const newNote = { id: setHighestId + 1, text: noteName, checked: false };
     if (selectedNote) {
       const updatedNotes = notes.map((note) =>
@@ -315,7 +315,7 @@ function Main() {
 
   const handleSearch = () => {
     // Filter the notes based on the search query
-    const [notes, setNotes] = useState([]);
+    //const [notes, setNotes] = useState([]);
     if (!searchQuery) {
       setValidationError('Please provide a note title you are searching for!');
       openModal();
