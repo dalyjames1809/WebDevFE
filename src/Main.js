@@ -128,10 +128,12 @@ function Main() {
   const closeNewNoteDialog = () => {
     setShowNewNoteDialog(false);
   };
+  const [notes, setNotes] = useState([]);
+  const [highestId, setHighestId] = useState(0);
 
   const handleConfirmAddNote = (noteName) => {
     //const [highestId, setHighestId] = useState(0);
-    const newNote = { id: setHighestId + 1, text: noteName, checked: false };
+    const newNote = { id: highestId + 1, text: noteName, checked: false };
     if (selectedNote) {
       const updatedNotes = notes.map((note) =>
         note.id === selectedNote.id ? { ...note, checked: false } : note
@@ -144,10 +146,6 @@ function Main() {
     closeNewNoteDialog();
   };
   
-
-  const [notes, setNotes] = useState([]);
-  const [highestId, setHighestId] = useState(0);
-
   const addNote = (newNote) => {
     if (sortByRecent) {
       setNotes([newNote, ...notes]);
@@ -361,6 +359,8 @@ function Main() {
           <div className="modal-overlay">
             <div className="modal-content">
             <AddFriendPopUp
+                notes={notes}
+                setNotes={setNotes}
                 handleClose={closeNewFriendPopUp}
                 handleConfirm={handleNewFriendPopUp}
             />
@@ -412,6 +412,7 @@ function Main() {
               <div className="modal-overlay">
                 <div className="modal-content">
                   <NewNoteDialog
+                    notes={notes} 
                     handleClose={closeNewNoteDialog}
                     handleConfirm={handleConfirmAddNote}
                   />
