@@ -33,7 +33,7 @@ function SettingsPopup({ handleClose }) {
   const handleSave = async (e) => {
     console.log(userID);
     try {
-      const response = await fetch(`https://notesapp343-aceae8559200.herokuapp.com/users/${userID}`, {
+      const response = await fetch(`https://notesapp343-aceae8559200.herokuapp.com/users/57`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
