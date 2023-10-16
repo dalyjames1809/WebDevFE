@@ -14,7 +14,6 @@ function Main() {
 
   const { username , userToken } = useUser();
   const [notename, setNoteName] = useState("");
-  const [categories, setCategories] = useState([]);
   const [selectedNote, setSelectedNote] = useState(null);
 
   const [noteContent, setNoteContent] = useState("");
@@ -30,37 +29,6 @@ function Main() {
     setModalIsOpen(false);
     setValidationError('');
   };
-
-  useEffect(() => {
-    // Function to fetch categories from the database
-    const fetchCategories = async () => {
-      try {
-        const token = userToken;
-        const auth = 'Bearer ' + token;
-        const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/categories', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': auth,
-          },
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setCategories(data); // Update the 'categories' state with the fetched categories
-        } else {
-          const errorData = await response.json();
-          console.error('Error fetching categories:', errorData.message);
-          // Handle the error as needed
-        }
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-        // Handle the error as needed
-      }
-    };
-
-    fetchCategories(); // Call the function to fetch categories when the component mounts
-  }, [userToken]);
 
   useEffect(() => {
     // Function to fetch all notes from the database
@@ -426,16 +394,14 @@ function Main() {
             </div>
         </div>
 
-        <label className="text-sky-600 font-bold">Filter Notes by Category:</label>
-      <div className="mb-2"></div>
+      <label className="text-sky-600 font-bold">Filter Notes by Category:</label>
+      <div className="mb-2"></div> {/* Adjust the value (2) to your desired spacing */}
       <select className="bg-white border border-gray-300 p-2 input-box w-full">
         <option value="category1">All Notes</option>
-        {categories.map((category) => (
-          <option key={category.id} value={category.id}>
-            {category.name}
-          </option>
-        ))}
+        <option value="category2">Category 1</option>
+        <option value="category3">Category 2</option>
       </select>
+
       <div className="mb-8"></div> {/* Adjust the value (2) to your desired spacing */}
       <div className="bg-white p-4 border border-gray-300 mt-4 rounded h-[380px] overflow-auto">
         <h3 className="text-sky-600 font-bold mb-2">Your Notes:</h3>
