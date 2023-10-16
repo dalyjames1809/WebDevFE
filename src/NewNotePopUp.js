@@ -39,6 +39,7 @@ function NewNoteDialog({ handleClose, handleConfirm }) {
        const noteData = {
          title: title,
          content: "",
+         category_id: 20
        };
        
        const auth = 'Bearer ' + token;

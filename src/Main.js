@@ -138,7 +138,7 @@ function Main() {
   }
 
   const deleteCheckedNotes = async () => {
-    
+
     try {
       const token = userToken;
 
@@ -154,16 +154,14 @@ function Main() {
        });
 
        if (response.ok) {
-         const data = await response.json();
-         console.log('Note deleted:', data.message);
+         console.log('Note deleted successfully');
          // You may want to handle the response data or do other actions here
        } else {
-         const errorData = await response.json();
-         console.error('Note deletion failed:', errorData.message);
+         console.error('Note deletion failed:');
          // Handle the error as needed
        }
      } catch (error) {
-       console.error('Error deleting note:', error);
+       console.log('');
        // Handle the error as needed
      }
 
