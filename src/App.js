@@ -58,8 +58,7 @@ function Home() {
         console.log(data);
 
         const token = data.token;
-        const { setUserToken } = useUser();
-        setUserToken(token.userToken);
+        setUserToken(token);
         navigate('/home');
       } else {
         // Handle login failure here.
