@@ -172,22 +172,16 @@ function SettingsPopup({ handleClose }) {
           </div>
   
           <div className="info-block">
-            <div className="label-column">
-              <label style={{ fontWeight: 'bold', fontSize: '1.2em' }}>Avatar:</label>
-            </div>
-            <div className="input-column">
-              {editMode ? (
-                <input
-                  type="text"
-                  name="avatar"
-                  value={formData.avatar}
-                  onChange={handleInputChange}
-                  style={{ color: 'black' }}
-                />
-              ) : (
-                <span>{formData.avatar}</span>
-              )}
-            </div>
+              <div className="label-column">
+                <label style={{ fontWeight: 'bold', fontSize: '1.2em' }}>Avatar:</label>
+              </div>
+              <div className="input-column" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <img
+                src="/Avatar_1.png" 
+                style={{ width: '50px', height: '50px'}}
+          />
+          </div>
+
           </div>
   
           <div className="info-block">
