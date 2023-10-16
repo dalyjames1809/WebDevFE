@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
+import { useUser } from './UserContext';
 import './ConfirmationDialog.css';
 import './SettingsModal.css';
 
@@ -36,8 +37,8 @@ function NewNoteDialog({ handleClose, handleConfirm }) {
  
        // Define the data to be sent in the POST request
        const noteData = {
-         title: notename,
-         content: noteContent,
+         title: title,
+         content: "",
        };
        
        const auth = 'Bearer ' + token;

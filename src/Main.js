@@ -149,7 +149,7 @@ function Main() {
         const auth = 'Bearer ' + token;
         // Send the POST request
         const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/notes', {
-          method: 'POST',
+          method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': auth,
