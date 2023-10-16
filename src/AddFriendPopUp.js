@@ -30,43 +30,47 @@ function AddFriendPopUp({ notes, handleConfirm, handleClose }) {
           Close
         </button>
         <div className="info-block">
-        <select 
-          id="category-select"
-          className="bg-white border border-gray-300 input-box w-full"
-          style={{ fontSize: '16px' }}
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-        >
-            <option disabled value="">Select a note to share...</option>
-            {notes.map((note) => (
-                <option key={note.note_id} value={note.note_id}>
-                  {note.title}
-                </option>
-              ))}
-        </select>
-          <div className="label-column">
-            <label style={{ fontWeight: 'bold', fontSize: '1.2em' }}>
-              Join with Friend:
-            </label>
-          </div>
+          <h2 className="sendreq-heading">Join with Friend:</h2>
           <div className="input-column">
+            <label htmlFor="friend-username">Friend's Username:</label>
             <input
               type="text"
+              id="friend-username"
               placeholder="Enter friend username..."
               name="FriendUsername"
               value={friendUsername}
               onChange={(e) => setFriendUsername(e.target.value)}
               style={{
                 color: 'black',
-                fontSize: '1.5em', // Adjust the font size as needed
+                fontSize: '1.5em',
+                width: '100%', // Equal width for both input fields
               }}
             />
-            <button
-              onClick={handleSendRequest}
-              className="send-request-button"
+            <label htmlFor="category-select">Select a Note to Share:</label>
+            <select
+              id="category-select"
+              className="bg-white border border-gray-300 input-box w-full"
+              style={{
+                fontSize: '23px',
+                width: '100%', // Equal width for both input fields
+              }}
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
             >
-              Send Request
-            </button>
+              <option disabled value="">
+                Select a note to share...
+              </option>
+              {notes.map((note) => (
+                <option key={note.note_id} value={note.note_id}>
+                  {note.title}
+                </option>
+              ))}
+            </select>
+            <div style={{ marginTop: '30px' }}>
+              <button onClick={handleSendRequest} className="send-request-button">
+                Send Request
+              </button>
+            </div>
           </div>
         </div>
       </div>
