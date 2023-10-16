@@ -2,11 +2,13 @@ import React, {useState, useEffect} from 'react';
 import './SettingsModal.css';
 import ConfirmationDialog from './DeletePopUp';
 import { useUser } from './UserContext';
+import { useNavigate } from 'react-router-dom';
 
 function SettingsPopup({ handleClose }) {
 
   const { username, name } = useUser();
-
+  const navigate = useNavigate();
+  
   const [formData, setFormData] = useState({
     username: name,
     email: username,
