@@ -16,7 +16,7 @@ function SettingsPopup({ handleClose }) {
   const [validationError, setValidationErrors] = useState('');
   
   const [formData, setFormData] = useState({
-    username: 'Dylan',
+    username: name,
     email: username,
     avatar: '',
     password: '*******',
