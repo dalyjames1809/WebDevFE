@@ -6,6 +6,7 @@ import SettingsPopup from './SettingsPopUp';
 import ConfirmationDialog from './SignOutPopUp';
 import NewNoteDialog from './NewNotePopUp';
 import { useUser } from './UserContext';
+import AddFriendPopUp from './AddFriendPopUp';
 import Modal from 'react-modal';
 
 Modal.setAppElement('#root');
@@ -273,7 +274,6 @@ function Main() {
   };
 
   const handleNewFriendPopUp = () => {
-
     closeNewFriendPopUp();
   };
 
