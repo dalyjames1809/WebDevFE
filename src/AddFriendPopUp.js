@@ -10,10 +10,11 @@ function AddFriendPopUp({ handleConfirm, handleClose }) {
         <button className="close-button" onClick={handleClose}>
           Close
         </button>
+        <h2 className="settings-heading">Join a Friend:</h2>
         <div className="info-block">
           <div className="label-column">
             <label style={{ fontWeight: 'bold', fontSize: '1.2em' }}>
-              Join with Friend:
+              {/* Leave this part as it is */}
             </label>
           </div>
           <div className="input-column">
@@ -23,19 +24,23 @@ function AddFriendPopUp({ handleConfirm, handleClose }) {
               name="FriendUsername"
               value={friendUsername}
               onChange={(e) => setFriendUsername(e.target.value)}
-              style={{ color: 'black' }}
+              style={{
+                color: 'black',
+                fontSize: '1.5em', // Adjust the font size as needed
+              }}
             />
-            <button
-              onClick={handleConfirm}
-              className="send-request-button" // Add your CSS class for styling the button
-            >
-              Send Request
-            </button>
           </div>
         </div>
+        <button
+          onClick={handleConfirm}
+          className="send-request-button"
+        >
+          Send Request
+        </button>
       </div>
     </div>
   );
 }
 
 export default AddFriendPopUp;
+
