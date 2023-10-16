@@ -14,7 +14,7 @@ function Main() {
   //const data = props.location.state && props.location.state.data;
   //const token = data ? data.token : null;
   const { username , userToken } = useUser();
-  //console.log(userToken);
+  console.log(userToken);
   const [notename, setNoteName] = useState("");
   // State to manage selected note and its content
   const [selectedNote, setSelectedNote] = useState(null);
