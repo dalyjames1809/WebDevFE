@@ -6,6 +6,7 @@ import './SettingsModal.css';
 Modal.setAppElement('#root');
 
 function NewNoteDialog({ handleClose, handleConfirm }) {
+  const { username , userToken } = useUser();
   const [title, setTitle] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [validationError, setValidationError] = useState('');
@@ -23,13 +24,46 @@ function NewNoteDialog({ handleClose, handleConfirm }) {
     setTitle(e.target.value);
   };
 
-  const handleCreateNote = () => {
+  const handleCreateNote = async() => {
     if (!title) {
       setValidationError('Please enter a note title');
       openModal();
       return;
     }
     handleConfirm(title);
+    try {
+      const token = userToken;
+ 
+       // Define the data to be sent in the POST request
+       const noteData = {
+         title: notename,
+         content: noteContent,
+       };
+       
+       const auth = 'Bearer ' + token;
+       // Send the POST request
+       const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/notes', {
+         method: 'POST',
+         headers: {
+           'Content-Type': 'application/json',
+           'Authorization': auth,
+         },
+         body: JSON.stringify(noteData),
+       });
+       console.log(JSON.stringify(noteData));
+       if (response.ok) {
+         const data = await response.json();
+         console.log('Note saved:', data.message);
+         // You may want to handle the response data or do other actions here
+       } else {
+         const errorData = await response.json();
+         console.error('Note saving failed:', errorData.message);
+         // Handle the error as needed
+       }
+     } catch (error) {
+       console.error('Error saving note:', error);
+       // Handle the error as needed
+     }
   };
 
   return (
