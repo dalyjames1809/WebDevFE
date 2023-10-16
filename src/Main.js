@@ -13,7 +13,7 @@ Modal.setAppElement('#root');
 
 function Main() {
   
-  const { username , userToken} = useUser();
+  const { username , userToken, userID} = useUser();
   const [notename, setNoteName] = useState("");
   const [selectedNote, setSelectedNote] = useState(null);
 
@@ -79,6 +79,44 @@ function Main() {
 
     fetchAllNotes(); // Call the function to fetch notes when the component mounts
   }, [userToken]);
+
+  const [categories, setCategories] = useState([]); // State to store fetched categories
+
+  useEffect(() => {
+    const fetchUserCategories = async () => {
+      try {
+        const token = userToken;
+        const auth = 'Bearer ' + token;
+        const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/categories', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': auth,
+          },
+        });
+  
+        if (response.ok) {
+          const data = await response.json();
+          console.log(userID)
+          // Filter categories by user_id
+          const filteredCategories = data.filter(category => category.user_id === userID);
+          
+          setCategories(filteredCategories); // Update the 'categories' state with the filtered categories
+        } else {
+          const errorData = await response.json();
+          console.error('Error fetching categories:', errorData.message);
+          // Handle the error as needed
+        }
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+        // Handle the error as needed
+      }
+    };
+  
+    fetchUserCategories(); // Call the function to fetch and filter categories when the component mounts
+  }, [userToken, userID]);
+  
+
   
   function changeFontSize(direction) {
     var textarea = document.querySelector('.markup-textarea');
@@ -128,12 +166,9 @@ function Main() {
   const closeNewNoteDialog = () => {
     setShowNewNoteDialog(false);
   };
-  const [notes, setNotes] = useState([]);
-  const [highestId, setHighestId] = useState(0);
 
   const handleConfirmAddNote = (noteName) => {
-    //const [highestId, setHighestId] = useState(0);
-    const newNote = { id: highestId + 1, text: noteName, checked: false };
+    const newNote = { id: setHighestId + 1, text: noteName, checked: false };
     if (selectedNote) {
       const updatedNotes = notes.map((note) =>
         note.id === selectedNote.id ? { ...note, checked: false } : note
@@ -146,6 +181,10 @@ function Main() {
     closeNewNoteDialog();
   };
   
+
+  const [notes, setNotes] = useState([]);
+  const [highestId, setHighestId] = useState(0);
+
   const addNote = (newNote) => {
     if (sortByRecent) {
       setNotes([newNote, ...notes]);
@@ -194,14 +233,10 @@ function Main() {
   
 
   const handleCheckboxChange = (note_id) => {
-  //   const updatedNotes = notes.map((note) =>
-  //   note.note_id === note_id ? { ...note, checked: !note.checked } : note
-  // );
-    const updatedNotes = notes.map((note) => ({
-      ...note,
-      checked: note.note_id === note_id,
-    }));
-    setNotes(updatedNotes);
+    const updatedNotes = notes.map((note) =>
+    note.note_id === note_id ? { ...note, checked: !note.checked } : note
+  );
+  setNotes(updatedNotes);
   
     // Find the note that corresponds to the clicked checkbox
     const clickedNote = updatedNotes.find((note) => note.note_id === note_id);
@@ -463,12 +498,15 @@ function Main() {
             </div>
         </div>
 
-      <label className="text-sky-600 font-bold">Filter Notes by Category:</label>
+        <label className="text-sky-600 font-bold">Filter Notes by Category:</label>
       <div className="mb-2"></div> {/* Adjust the value (2) to your desired spacing */}
       <select className="bg-white border border-gray-300 p-2 input-box w-full">
         <option value="category1">All Notes</option>
-        <option value="category2">Category 1</option>
-        <option value="category3">Category 2</option>
+        {categories.map((category) => (
+          <option key={category.id} value={category.id}>
+            {category.name}
+          </option>
+        ))}
       </select>
 
       <div className="mb-8"></div> {/* Adjust the value (2) to your desired spacing */}
