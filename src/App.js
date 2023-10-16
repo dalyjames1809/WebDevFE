@@ -65,6 +65,7 @@ function Home() {
         setName(name);
         const iduser = data.userID;
         setUserID(iduser);
+        console.log(iduser);
         navigate('/home');
       } else {
         // Handle login failure here.
