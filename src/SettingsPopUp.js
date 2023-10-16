@@ -57,7 +57,11 @@ function SettingsPopup({ handleClose }) {
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const handleDeleteAccount = () => {
-      try {
+    setShowConfirmation(true);
+  };
+
+  const handleConfirmDelete = () => {
+    try {
       const response = await fetch(`https://notesapp343-aceae8559200.herokuapp.com/users/${userID}`, {
         method: 'DELETE',
       });
@@ -73,12 +77,6 @@ function SettingsPopup({ handleClose }) {
     } catch (error) {
     console.error('Error Delete user:', error);
     }
-  };
-
-  const handleConfirmDelete = () => {
-    // Add code here to handle account deletion
-    // ...
-    setShowConfirmation(false); // Close the confirmation dialog after deletion
   };
 
   const handleCloseConfirmation = () => {
