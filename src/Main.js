@@ -252,7 +252,7 @@ function Main() {
   const [showAddFriendDialog, setAddFriendDialog] = useState(false);
 
   const OpenNewFriendPopUp = () => {
-    setAddFriendDialogAddFriendDialog(true);
+    setAddFriendDialog(true);
     // Add your logic for adding friends here
   };
 
