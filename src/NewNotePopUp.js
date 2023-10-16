@@ -38,7 +38,8 @@ function NewNoteDialog({ handleClose, handleConfirm }) {
        // Define the data to be sent in the POST request
        const noteData = {
          title: title,
-         content: ""
+         content: "",
+         category_id:5
        };
        
        const auth = 'Bearer ' + token;
