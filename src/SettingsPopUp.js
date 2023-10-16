@@ -1,11 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import './SettingsModal.css';
 import ConfirmationDialog from './DeletePopUp';
+import { useUser } from './UserContext';
 
 function SettingsPopup({ handleClose }) {
+
+  const { username } = useUser();
+
   const [formData, setFormData] = useState({
     username: '',
-    email: '',
+    email: username,
     password: '',
   });
 
