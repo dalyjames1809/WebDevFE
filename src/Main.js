@@ -11,7 +11,7 @@ import Modal from 'react-modal';
 Modal.setAppElement('#root');
 
 function Main() {
-
+  
   const { username , userToken} = useUser();
   const [notename, setNoteName] = useState("");
   const [selectedNote, setSelectedNote] = useState(null);
@@ -129,7 +129,8 @@ function Main() {
   };
 
   const handleConfirmAddNote = (noteName) => {
-    const newNote = { id: highestId + 1, text: noteName, checked: false };
+    const [highestId, setHighestId] = useState(0);
+    const newNote = { id: setHighestId + 1, text: noteName, checked: false };
     if (selectedNote) {
       const updatedNotes = notes.map((note) =>
         note.id === selectedNote.id ? { ...note, checked: false } : note
@@ -314,22 +315,25 @@ function Main() {
 
   const handleSearch = () => {
     // Filter the notes based on the search query
-    if (!searchQuery){
-      setValidationError('Please provide a note title you are search for!');
+    const [notes, setNotes] = useState([]);
+    if (!searchQuery) {
+      setValidationError('Please provide a note title you are searching for!');
       openModal();
       return;
     }
-
+  
     resetSearch();
     serOrigNote(notes);
-    
+  
     const filteredNotes = notes.filter((note) =>
       note.text.toLowerCase().includes(searchQuery.toLowerCase())
     );
-
+  
     // Update the displayed notes
     setNotes(filteredNotes);
   };
+  
+ 
 
   const resetSearch = () => {
     // Clear the search query and display all notes
