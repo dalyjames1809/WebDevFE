@@ -348,6 +348,17 @@ function Main() {
             alt="external logo"
           />
         </div>
+        <button className="add-friend-button" onClick={OpenNewFriendPopUp}>+Friend</button>
+        {showAddFriendDialog && (
+              <div className="modal-overlay">
+                <div className="modal-content">
+                  <AddFriendPopUp
+                    handleClose={closeNewFriendPopUp}
+                    handleConfirm={handleNewFriendPopUp}
+                  />
+                </div>
+              </div>
+            )}
         <div className="mr-4 ml-20">
           <h2 className="text-4xl font-funky mb-4 inline">{username ? `Welcome, ${username}` : 'Welcome, dylancoetzee@gmail.com'}</h2>
         </div>

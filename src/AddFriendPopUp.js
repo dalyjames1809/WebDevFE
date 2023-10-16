@@ -13,7 +13,7 @@ function AddFriendPopUp({ handleConfirm, handleClose }) {
         <div className="info-block">
           <div className="label-column">
             <label style={{ fontWeight: 'bold', fontSize: '1.2em' }}>
-              Username of Friend:
+              Join with Friend:
             </label>
           </div>
           <div className="input-column">
