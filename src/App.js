@@ -58,8 +58,8 @@ function Home() {
         console.log(data);
 
         const token = data.token;
-        navigate('/home', { state: { data } });
-
+        setUserToken(token.userToken);
+        navigate('/home');
       } else {
         // Handle login failure here.
         const errorData = await response.json();
@@ -131,4 +131,3 @@ function Home() {
 }
 
 export default App;
-
