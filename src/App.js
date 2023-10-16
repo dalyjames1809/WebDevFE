@@ -25,7 +25,7 @@ function App() {
 function Home() {
   const [errorMessage, setErrorMessage] = useState(''); // State for error message
   const navigate = useNavigate();
-  const { setUsername } = useUser();
+  const { setUsername , setUserToken } = useUser();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,6 +56,9 @@ function Home() {
         const data = await response.json();
         console.log('Login successful');
         console.log(data);
+
+        const token = data.token;
+        setUserToken(token.userToken);
         navigate('/home');
       } else {
         // Handle login failure here.
