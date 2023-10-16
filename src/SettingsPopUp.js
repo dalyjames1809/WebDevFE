@@ -3,7 +3,6 @@ import './SettingsModal.css';
 import ConfirmationDialog from './DeletePopUp';
 
 function SettingsPopup({ handleClose }) {
-
   const [formData, setFormData] = useState({
     username: '',
     email: '',
