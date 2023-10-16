@@ -10,6 +10,7 @@ function SettingsPopup({ handleClose }) {
   const [formData, setFormData] = useState({
     username: '',
     email: username,
+    avatar: '',
     password: '',
   });
 
