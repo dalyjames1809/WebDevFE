@@ -11,7 +11,7 @@ import Modal from 'react-modal';
 Modal.setAppElement('#root');
 
 function Main(props) {
-  const data = props.location.state.data;
+  const data = props.location.state && props.location.state.data;
   const token = data ? data.token : null;
   const { username , userToken } = useUser();
   //console.log(userToken);
