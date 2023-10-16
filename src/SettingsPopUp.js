@@ -57,7 +57,22 @@ function SettingsPopup({ handleClose }) {
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const handleDeleteAccount = () => {
-    setShowConfirmation(true);
+      try {
+      const response = await fetch(`https://notesapp343-aceae8559200.herokuapp.com/users/${userID}`, {
+        method: 'DELETE',
+      });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log('Delete successful:', data.message);
+      navigate('/');
+    } else {
+      const errorData = await response.json();
+      console.error('Delete failed:', errorData.message);
+    }
+    } catch (error) {
+    console.error('Error Delete user:', error);
+    }
   };
 
   const handleConfirmDelete = () => {
