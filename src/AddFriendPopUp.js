@@ -20,7 +20,7 @@ function AddFriendPopUp({ handleConfirm, handleClose }) {
           <div className="input-column">
             <input
               type="text"
-              placeholder="Friend's Username"
+              placeholder="Enter friend username..."
               name="FriendUsername"
               value={friendUsername}
               onChange={(e) => setFriendUsername(e.target.value)}
