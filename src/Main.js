@@ -138,37 +138,42 @@ function Main() {
   }
 
   const deleteCheckedNotes = async () => {
-
     try {
       const token = userToken;
-
-       const URL = "https://notesapp343-aceae8559200.herokuapp.com/notes/" + selectedNote.note_id;
-       const auth = 'Bearer ' + token;
-       // Send the POST request
-       const response = await fetch(URL, {
-         method: 'DELETE',
-         headers: {
-           'Content-Type': 'application/json',
-           'Authorization': auth,
-         }
-       });
-
-       if (response.ok) {
-         console.log('Note deleted successfully');
-         // You may want to handle the response data or do other actions here
-       } else {
-         console.error('Note deletion failed:');
-         // Handle the error as needed
-       }
-     } catch (error) {
-       console.log('');
-       // Handle the error as needed
-     }
-
+      const URL = "https://notesapp343-aceae8559200.herokuapp.com/notes/" + selectedNote.note_id;
+      const auth = 'Bearer ' + token;
+  
+      // Send the DELETE request
+      const response = await fetch(URL, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': auth,
+        },
+      });
+  
+      if (response.ok) {
+        console.log('Note deleted successfully');
+        // You may want to handle the response data or do other actions here
+      } else {
+        console.error('Note deletion failed:');
+        // Handle the error as needed
+      }
+    } catch (error) {
+      console.error('Error deleting note:', error);
+      // Handle the error as needed
+    }
+  
+    // Clear the selected note and content
+    setSelectedNote(null);
+    setNoteName("");
+    setNoteContent("");
+  
     const updatedNotes = notes.filter(note => !note.checked);
     setNotes(updatedNotes.map((note, index) => ({ ...note, id: index })));
     setHighestId(updatedNotes.length);
-  }
+  };
+  
 
   const handleCheckboxChange = (note_id) => {
     const updatedNotes = notes.map((note) =>
@@ -401,20 +406,20 @@ function Main() {
       <div className="bg-white p-4 border border-gray-300 mt-4 rounded h-[380px] overflow-auto">
         <h3 className="text-sky-600 font-bold mb-2">Your Notes:</h3>
         <ul className="list-disc">
-  {notes.map((note, index) => (
-    <li key={note.note_id}>
-      <input
-        type="checkbox"
-        className="mr-2"
-        checked={note.checked}
-        onChange={() => handleCheckboxChange(note.note_id)}
-      />
-      <span style={{ color: note.checked ? 'gray' : 'black' }}>
-        <strong>{note.title}</strong>
-      </span>
-    </li>
-  ))}
-</ul>
+        {notes.map((note, index) => (
+          <li key={note.note_id}>
+            <input
+              type="checkbox"
+              className="mr-2"
+              checked={note.checked}
+              onChange={() => handleCheckboxChange(note.note_id)}
+            />
+            <span style={{ color: note.checked ? 'gray' : 'black' }}>
+              <strong>{note.title}</strong>
+            </span>
+          </li>
+        ))}
+      </ul>
       </div>
         </div>
         {/* Markup Text Area */}
@@ -440,7 +445,7 @@ function Main() {
           <textarea
             className="w-full h-full border border-gray-300 p-2 markup-textarea"
             placeholder="Start typing..."
-            value={noteContent}
+            value={noteContent} // Ensure it's controlled
             onChange={(e) => setNoteContent(e.target.value)}
             readOnly={!selectedNote} // Disable editing if no note is selected
           />
