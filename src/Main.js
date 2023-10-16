@@ -351,18 +351,23 @@ function Main() {
             className="w-16 h-16 rounded-full mr-4"
             alt="external logo"
           />
-        </div>
-        <button className="add-friend-button" onClick={OpenNewFriendPopUp}>+Friend</button>
+          <img
+          src="/add-friend.png" 
+          className="add-friend-button"
+          style={{ width: '50px', height: '50px' , cursor: 'pointer'}}
+          onClick={OpenNewFriendPopUp}
+        />
         {showAddFriendDialog && (
-              <div className="modal-overlay">
-                <div className="modal-content">
-                  <AddFriendPopUp
-                    handleClose={closeNewFriendPopUp}
-                    handleConfirm={handleNewFriendPopUp}
-                  />
-                </div>
-              </div>
-            )}
+          <div className="modal-overlay">
+            <div className="modal-content">
+            <AddFriendPopUp
+                handleClose={closeNewFriendPopUp}
+                handleConfirm={handleNewFriendPopUp}
+            />
+          </div>
+        </div>
+        )}
+        </div>
         <div className="mr-4 ml-20">
           <h2 className="text-4xl font-funky mb-4 inline">{username ? `Welcome, ${username}` : 'Welcome, dylancoetzee@gmail.com'}</h2>
         </div>
