@@ -1,24 +1,40 @@
 import React, { useState } from 'react';
+import Modal from 'react-modal';
 import './ConfirmationDialog.css';
 import './SettingsModal.css';
 
+Modal.setAppElement('#root');
+
 function NewNoteDialog({ handleClose, handleConfirm }) {
-  // Define a state variable to store the title input value
   const [title, setTitle] = useState('');
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [validationError, setValidationError] = useState('');
+
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+    setValidationError('');
+  };
 
   const handleTitleChange = (e) => {
-    // Update the title state when the input value changes
     setTitle(e.target.value);
   };
 
   const handleCreateNote = () => {
-    // Pass the title to the handleConfirm function
+    if (!title) {
+      setValidationError('Please enter a note title');
+      openModal();
+      return;
+    }
     handleConfirm(title);
   };
 
   return (
     <div className="confirmation-dialog">
-      <h1 className="settings-heading">Add Note:</h1>
+      <h1 className="settings-heading" style={{ marginBottom: '20px' }}>Add Note:</h1>
       <div className="info-block">
         <div className="label-column">
           <label>Enter a title for the new note:</label>
@@ -28,25 +44,65 @@ function NewNoteDialog({ handleClose, handleConfirm }) {
             type="text"
             name="title"
             placeholder="Enter note title here..."
-            style={{ color: 'black' }}
+            style={{ color: 'black', fontSize: '16px' }}
             value={title}
-            onChange={handleTitleChange} // Add onChange event handler
+            onChange={handleTitleChange}
           />
         </div>
+        <label>Select the category for the new note:</label>
+        <select className="bg-white border border-gray-300 input-box w-full" style={{ fontSize: '16px' }}>
+          <option disabled value="">Select a category...</option>
+          <option value="category1">To-Do List</option>
+          <option value="category2">Class Note</option>
+          <option value="category3">Work Note</option>
+          <option value="category4">Summary</option>
+          <option value="category5">Other</option>
+        </select>
       </div>
-
-      <label>Select the category for the new note:</label>
-      <select className="bg-white border border-gray-300 p-2 input-box w-full">
-        <option disabled value="">Select a category...</option>
-        <option value="category1">To-Do List</option>
-        <option value="category2">Class Note</option>
-        <option value="category3">Work Note</option>
-        <option value="category4">Summary</option>
-        <option value="category5">Other</option>
-      </select>
-
-      <button className="confirm-button" onClick={handleCreateNote}>Create Note</button>
-      <button className="cancel-button" onClick={handleClose}>Cancel</button>
+      <div className="button-container" style={{ marginTop: '20px' }}>
+        <button className="confirm-button" onClick={handleCreateNote}>Create Note</button>
+        <button className="cancel-button" onClick={handleClose}>Cancel</button>
+      </div>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={{
+          content: {
+            width: '300px',
+            height: '150px',
+            margin: 'auto',
+            border: '1px solid #ccc',
+            background: 'white',
+            borderRadius: '5px',
+            padding: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+          },
+          overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.6)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          },
+        }}
+      >
+        <p>{validationError}</p>
+        <button
+          onClick={closeModal}
+          style={{
+            color: 'white',
+            background: 'red',
+            borderRadius: '10px',
+            marginTop: '10px',
+            padding: '10px 20px',
+            cursor: 'pointer',
+          }}
+        >
+          Close
+        </button>
+      </Modal>
     </div>
   );
 }

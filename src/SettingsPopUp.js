@@ -1,11 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import './SettingsModal.css';
 import ConfirmationDialog from './DeletePopUp';
+import { useUser } from './UserContext';
 
 function SettingsPopup({ handleClose }) {
+
+  const { username } = useUser();
+
   const [formData, setFormData] = useState({
     username: '',
-    email: '',
+    email: username,
+    avatar: '',
     password: '',
   });
 
@@ -77,7 +82,7 @@ function SettingsPopup({ handleClose }) {
               {editMode ? (
                 <input
                   type="text"
-                  name="name"
+                  name="username"
                   value={formData.username}
                   onChange={handleInputChange}
                   style={{ color: 'black' }}
@@ -96,7 +101,7 @@ function SettingsPopup({ handleClose }) {
               {editMode ? (
                 <input
                   type="text"
-                  name="surname"
+                  name="email"
                   value={formData.email}
                   onChange={handleInputChange}
                   style={{ color: 'black' }}
@@ -114,8 +119,8 @@ function SettingsPopup({ handleClose }) {
             <div className="input-column">
               {editMode ? (
                 <input
-                  type="email"
-                  name="email"
+                  type="text"
+                  name="avatar"
                   value={formData.avatar}
                   onChange={handleInputChange}
                   style={{ color: 'black' }}
@@ -134,7 +139,7 @@ function SettingsPopup({ handleClose }) {
               {editMode ? (
                 <input
                   type="text"
-                  name="avatar"
+                  name="password"
                   value={formData.password}
                   onChange={handleInputChange}
                   style={{ color: 'black' }}
