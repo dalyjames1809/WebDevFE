@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 function SettingsPopup({ handleClose }) {
 
-  const { username, name } = useUser();
+  const { username, name, userID } = useUser();
   const navigate = useNavigate();
   
   const [formData, setFormData] = useState({
