@@ -5,10 +5,10 @@ import { useUser } from './UserContext';
 
 function SettingsPopup({ handleClose }) {
 
-  const { username } = useUser();
+  const { username, name } = useUser();
 
   const [formData, setFormData] = useState({
-    username: '',
+    username: name,
     email: username,
     avatar: '',
     password: '',
