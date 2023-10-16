@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './Button.css'; // Assuming you have a CSS file named Button.css
 import ColorPicker from './ColorPicker.js';
 import './SettingsModal.css';
@@ -29,6 +29,37 @@ function Main() {
     setModalIsOpen(false);
     setValidationError('');
   };
+
+  useEffect(() => {
+    // Function to fetch all notes from the database
+    const fetchAllNotes = async () => {
+      try {
+        const token = userToken;
+        const auth = 'Bearer ' + token;
+        const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/notes?orderBy=recent', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': auth,
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setNotes(data); // Update the 'notes' state with the fetched notes
+        } else {
+          const errorData = await response.json();
+          console.error('Error fetching notes:', errorData.message);
+          // Handle the error as needed
+        }
+      } catch (error) {
+        console.error('Error fetching notes:', error);
+        // Handle the error as needed
+      }
+    };
+
+    fetchAllNotes(); // Call the function to fetch notes when the component mounts
+  }, [userToken]);
   
   function changeFontSize(direction) {
     var textarea = document.querySelector('.markup-textarea');
@@ -112,19 +143,19 @@ function Main() {
     setHighestId(updatedNotes.length);
   }
 
-  const handleCheckboxChange = (id) => {
+  const handleCheckboxChange = (note_id) => {
     const updatedNotes = notes.map((note) =>
-      note.id === id ? { ...note, checked: !note.checked } : { ...note, checked: false }
-    );
-    setNotes(updatedNotes);
+    note.note_id === note_id ? { ...note, checked: !note.checked } : note
+  );
+  setNotes(updatedNotes);
   
     // Find the note that corresponds to the clicked checkbox
-    const clickedNote = updatedNotes.find((note) => note.id === id);
+    const clickedNote = updatedNotes.find((note) => note.note_id === note_id);
   
     // If the clicked note is selected, populate the noteContent state with its text
     if (clickedNote.checked) {
       setNoteContent(clickedNote.content);
-      setNoteName(clickedNote.text);
+      setNoteName(clickedNote.title);
       setSelectedNote(clickedNote);
     } else {
       // Clear the noteContent when a note is deselected
@@ -145,10 +176,11 @@ function Main() {
           title: notename,
           content: noteContent,
         };
-        
+        console.log(selectedNote.note_id);
+        const URL = "https://notesapp343-aceae8559200.herokuapp.com/notes/" + selectedNote.note_id;
         const auth = 'Bearer ' + token;
         // Send the POST request
-        const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/notes', {
+        const response = await fetch(URL, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -342,13 +374,20 @@ function Main() {
       <div className="bg-white p-4 border border-gray-300 mt-4 rounded h-[380px] overflow-auto">
         <h3 className="text-sky-600 font-bold mb-2">Your Notes:</h3>
         <ul className="list-disc">
-            {notes.map((note, index) => (
-            <li key={note.id}>
-              <input type="checkbox" className="mr-2" checked={note.checked} onChange={() => handleCheckboxChange(note.id)} />
-              <span style={{ color: note.checked ? 'gray' : 'black' }}>{note.text}</span>
-            </li>
-            ))}
-          </ul>
+  {notes.map((note, index) => (
+    <li key={note.note_id}>
+      <input
+        type="checkbox"
+        className="mr-2"
+        checked={note.checked}
+        onChange={() => handleCheckboxChange(note.note_id)}
+      />
+      <span style={{ color: note.checked ? 'gray' : 'black' }}>
+        <strong>{note.title}</strong>
+      </span>
+    </li>
+  ))}
+</ul>
       </div>
         </div>
         {/* Markup Text Area */}
