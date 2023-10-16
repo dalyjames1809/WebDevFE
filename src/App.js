@@ -26,6 +26,7 @@ function Home() {
   const [errorMessage, setErrorMessage] = useState(''); // State for error message
   const navigate = useNavigate();
   const { setUsername , setUserToken } = useUser();
+  const [rememberMe, setRememberMe] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,6 +49,7 @@ function Home() {
         body: JSON.stringify({
           email: username,
           password: password,
+          rememberMe: rememberMe,
         }),
       });
 
@@ -71,6 +73,10 @@ function Home() {
       setErrorMessage('An error occurred while logging in.'); // Set a generic error message
     }
   }
+
+    const handleRememberMeChange = (e) => {
+      setRememberMe(e.target.checked);
+    }
   
   return (
     <div className="bg-blue-900 min-h-screen flex justify-center items-center">
@@ -114,6 +120,7 @@ function Home() {
               <input
                 type="checkbox"
                 className="mr-2"
+                onChange={handleRememberMeChange}
               />
               Remember me
             </label>
