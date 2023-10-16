@@ -23,13 +23,48 @@ function NewNoteDialog({ handleClose, handleConfirm }) {
     setTitle(e.target.value);
   };
 
-  const handleCreateNote = () => {
+  const handleCreateNote = async () => {
     if (!title) {
       setValidationError('Please enter a note title');
       openModal();
       return;
     }
     handleConfirm(title);
+
+    try {
+      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2MiwiZXhwIjoxNzAxMDU5OTEzfQ.TV2mRvmJj8FLfo97M-J6O6EhjQG8sg285_JA5XQ0oeU";
+ 
+       // Define the data to be sent in the POST request
+       const noteData = {
+         title: title,
+         content: ""
+       };
+       
+       const auth = 'Bearer ' + token;
+       // Send the POST request
+       const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/notes', {
+         method: 'POST',
+         headers: {
+           'Content-Type': 'application/json',
+           'Authorization': auth,
+         },
+         body: JSON.stringify(noteData),
+       });
+       console.log(JSON.stringify(noteData));
+       if (response.ok) {
+         const data = await response.json();
+         console.log('Note saved:', data.message);
+         // You may want to handle the response data or do other actions here
+       } else {
+         const errorData = await response.json();
+         console.error('Note saving failed:', errorData.message);
+         // Handle the error as needed
+       }
+     } catch (error) {
+       console.error('Error saving note:', error);
+       // Handle the error as needed
+     }
+
   };
 
   return (

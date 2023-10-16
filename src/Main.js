@@ -141,7 +141,7 @@ function Main() {
     // When you save changes, update the clickedNote's text with the content in the text box.
     if (selectedNote) {
       try {
-       const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2MiwiZXhwIjoxNjk3NDU1NzcwfQ.qTHTVWhm4-IwqpKg4026jP_ymhPi7eCBIP5RWIbv2z4';
+       const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2MiwiZXhwIjoxNzAxMDU5OTEzfQ.TV2mRvmJj8FLfo97M-J6O6EhjQG8sg285_JA5XQ0oeU";
   
         // Define the data to be sent in the POST request
         const noteData = {
@@ -152,7 +152,7 @@ function Main() {
         const auth = 'Bearer ' + token;
         // Send the POST request
         const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/notes', {
-          method: 'POST',
+          method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': auth,
