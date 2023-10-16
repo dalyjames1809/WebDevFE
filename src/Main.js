@@ -385,6 +385,7 @@ function Main() {
           <div className="modal-overlay">
             <div className="modal-content">
               <ConfirmationDialog
+                notes={notes} // Pass the 'notes' data as a prop
                 handleClose={handleCloseConfirmation}
                 handleConfirm={handleConfirmSignOut}
               />
