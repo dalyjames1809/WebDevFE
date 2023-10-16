@@ -333,17 +333,17 @@ function Main() {
             alt="external logo"
           />
         </div>
-        <button className="add-friend-button" onClick={OpenNewFriendPopUp}>+Friend</button>
-        {AddFriendPopUp && (
-              <div className="modal-overlay">
-                <div className="modal-content">
-                  <AddFriendPopUp
-                    handleClose={closeNewFriendPopUp}
-                    handleConfirm={handleNewFriendPopUp}
-                  />
-                </div>
-              </div>
-            )}
+   //     <button className="add-friend-button" onClick={OpenNewFriendPopUp}>+Friend</button>
+   //     {AddFriendPopUp && (
+   //           <div className="modal-overlay">
+  //              <div className="modal-content">
+  //                <AddFriendPopUp
+ //                   handleClose={closeNewFriendPopUp}
+ //                   handleConfirm={handleNewFriendPopUp}
+//                  />
+//                </div>
+//              </div>
+//            )}
         <div className="mr-4 ml-20">
           <h2 className="text-4xl font-funky mb-4 inline">{username ? `Welcome, ${username}` : 'Welcome'}</h2>
         </div>
