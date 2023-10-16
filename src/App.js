@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { useUser } from './UserContext';
 
 async function App() {
-  const { data } = await response.json(); // Assuming this is how you get the data
   return (
     <Router>
       <Routes>
@@ -17,7 +16,7 @@ async function App() {
         <Route path="/register" element={<SignUp />} />
 
         {/* Main Page (Home Page After Login) */}
-        <Route path="/home" element={<Main data={data}/>} />
+        <Route path="/home" element={<Main/>} />
       </Routes>
     </Router>
   );
