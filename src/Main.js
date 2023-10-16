@@ -137,7 +137,36 @@ function Main() {
     setHighestId(highestId + 1);
   }
 
-  const deleteCheckedNotes = () => {
+  const deleteCheckedNotes = async () => {
+    
+    try {
+      const token = userToken;
+
+       const URL = "https://notesapp343-aceae8559200.herokuapp.com/notes/" + selectedNote.note_id;
+       const auth = 'Bearer ' + token;
+       // Send the POST request
+       const response = await fetch(URL, {
+         method: 'DELETE',
+         headers: {
+           'Content-Type': 'application/json',
+           'Authorization': auth,
+         }
+       });
+
+       if (response.ok) {
+         const data = await response.json();
+         console.log('Note deleted:', data.message);
+         // You may want to handle the response data or do other actions here
+       } else {
+         const errorData = await response.json();
+         console.error('Note deletion failed:', errorData.message);
+         // Handle the error as needed
+       }
+     } catch (error) {
+       console.error('Error deleting note:', error);
+       // Handle the error as needed
+     }
+
     const updatedNotes = notes.filter(note => !note.checked);
     setNotes(updatedNotes.map((note, index) => ({ ...note, id: index })));
     setHighestId(updatedNotes.length);
@@ -176,7 +205,7 @@ function Main() {
           title: notename,
           content: noteContent,
         };
-        console.log(selectedNote.note_id);
+        //console.log(selectedNote.note_id);
         const URL = "https://notesapp343-aceae8559200.herokuapp.com/notes/" + selectedNote.note_id;
         const auth = 'Bearer ' + token;
         // Send the POST request
