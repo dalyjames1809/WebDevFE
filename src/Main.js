@@ -8,7 +8,6 @@ import NewNoteDialog from './NewNotePopUp';
 import { useUser } from './UserContext';
 
 function Main({data}) {
-  console.log(data);
   const { username } = useUser();
   const [notename, setNoteName] = useState("");
   // State to manage selected note and its content
@@ -85,6 +84,7 @@ function Main({data}) {
   const [highestId, setHighestId] = useState(0);
 
   const addNote = (newNote) => {
+  console.log(data)
     if (sortByRecent) {
       setNotes([newNote, ...notes]);
     } else {
