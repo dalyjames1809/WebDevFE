@@ -13,7 +13,7 @@ Modal.setAppElement('#root');
 function Main() {
 
   const { username , userToken } = useUser();
-  console.log(userToken);
+  //console.log(userToken);
   const [notename, setNoteName] = useState("");
   // State to manage selected note and its content
   const [selectedNote, setSelectedNote] = useState(null);
