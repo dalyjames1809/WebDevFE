@@ -194,10 +194,14 @@ function Main() {
   
 
   const handleCheckboxChange = (note_id) => {
-    const updatedNotes = notes.map((note) =>
-    note.note_id === note_id ? { ...note, checked: !note.checked } : note
-  );
-  setNotes(updatedNotes);
+  //   const updatedNotes = notes.map((note) =>
+  //   note.note_id === note_id ? { ...note, checked: !note.checked } : note
+  // );
+    const updatedNotes = notes.map((note) => ({
+      ...note,
+      checked: note.note_id === note_id,
+    }));
+    setNotes(updatedNotes);
   
     // Find the note that corresponds to the clicked checkbox
     const clickedNote = updatedNotes.find((note) => note.note_id === note_id);
