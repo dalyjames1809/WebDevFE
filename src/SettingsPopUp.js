@@ -197,7 +197,7 @@ function SettingsPopup({ handleClose }) {
             <div className="input-column">
               {editMode ? (
                 <input
-                  type="text"
+                  type="password"
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
