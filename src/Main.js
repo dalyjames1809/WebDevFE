@@ -13,7 +13,7 @@ Modal.setAppElement('#root');
 
 function Main() {
   
-  const { username , userToken} = useUser();
+  const { username , userToken, userID} = useUser();
   const [notename, setNoteName] = useState("");
   const [selectedNote, setSelectedNote] = useState(null);
 
@@ -94,10 +94,14 @@ function Main() {
             'Authorization': auth,
           },
         });
-
+  
         if (response.ok) {
           const data = await response.json();
-          setCategories(data); // Update the 'categories' state with the fetched categories
+          console.log(userID)
+          // Filter categories by user_id
+          const filteredCategories = data.filter(category => category.user_id === userID);
+          
+          setCategories(filteredCategories); // Update the 'categories' state with the filtered categories
         } else {
           const errorData = await response.json();
           console.error('Error fetching categories:', errorData.message);
@@ -108,9 +112,10 @@ function Main() {
         // Handle the error as needed
       }
     };
-
-    fetchUserCategories(); // Call the function to fetch categories when the component mounts
-  }, [userToken]);
+  
+    fetchUserCategories(); // Call the function to fetch and filter categories when the component mounts
+  }, [userToken, userID]);
+  
 
   
   function changeFontSize(direction) {
@@ -163,7 +168,6 @@ function Main() {
   };
 
   const handleConfirmAddNote = (noteName) => {
-    //const [highestId, setHighestId] = useState(0);
     const newNote = { id: setHighestId + 1, text: noteName, checked: false };
     if (selectedNote) {
       const updatedNotes = notes.map((note) =>

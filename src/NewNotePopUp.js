@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import { useUser } from './UserContext';
 import './ConfirmationDialog.css';
@@ -7,10 +7,11 @@ import './SettingsModal.css';
 Modal.setAppElement('#root');
 
 function NewNoteDialog({ handleClose, handleConfirm }) {
-  const { username , userToken } = useUser();
+  const { username , userToken, userID} = useUser();
   const [title, setTitle] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [validationError, setValidationError] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState(''); // Initialize it with a default value
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -25,48 +26,102 @@ function NewNoteDialog({ handleClose, handleConfirm }) {
     setTitle(e.target.value);
   };
 
-  const handleCreateNote = async() => {
+  const [categories, setCategories] = useState([]); // State to store fetched categories
+
+  useEffect(() => {
+    const fetchUserCategories = async () => {
+      try {
+        const token = userToken;
+        const auth = 'Bearer ' + token;
+        const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/categories', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': auth,
+          },
+        });
+  
+        if (response.ok) {
+          const data = await response.json();
+          console.log(userID)
+          // Filter categories by user_id
+          const filteredCategories = data.filter(category => category.user_id === userID);
+          
+          setCategories(filteredCategories); // Update the 'categories' state with the filtered categories
+        } else {
+          const errorData = await response.json();
+          console.error('Error fetching categories:', errorData.message);
+          // Handle the error as needed
+        }
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+        // Handle the error as needed
+      }
+    };
+  
+    fetchUserCategories(); // Call the function to fetch and filter categories when the component mounts
+  }, [userToken, userID]);
+
+  const handleCreateNote = async () => {
     if (!title) {
       setValidationError('Please enter a note title');
       openModal();
       return;
     }
     handleConfirm(title);
-    try {
+  
+    try { // Add try block here
+      // Create a map of category names to their IDs
+      console.log('categories:', categories);
+
+      const categoryMap = {};
+      for (const category of categories) {
+        categoryMap[category.name] = category.category_id;
+      }
+      console.log('categoryMap:', categoryMap); // Add this line to check the contents of categoryMap
+
       const token = userToken;
- 
-       // Define the data to be sent in the POST request
-       const noteData = {
-         title: title,
-         content: "",
-         category_id:5
-       };
-       
-       const auth = 'Bearer ' + token;
-       // Send the POST request
-       const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/notes', {
-         method: 'POST',
-         headers: {
-           'Content-Type': 'application/json',
-           'Authorization': auth,
-         },
-         body: JSON.stringify(noteData),
-       });
-       console.log(JSON.stringify(noteData));
-       if (response.ok) {
-         const data = await response.json();
-         console.log('Note saved:', data.message);
-         // You may want to handle the response data or do other actions here
-       } else {
-         const errorData = await response.json();
-         console.error('Note saving failed:', errorData.message);
-         // Handle the error as needed
-       }
-     } catch (error) {
-       console.error('Error saving note:', error);
-       // Handle the error as needed
-     }
+
+      const category_id = categoryMap[selectedCategory]; // Look up the ID based on the selected category
+  
+      const noteData = {
+        title: title,
+        content: '',
+        category_id: category_id, // Include the selected category ID
+      };
+  
+      const auth = 'Bearer ' + token;
+      // Send the POST request
+      const response = await fetch(
+        'https://notesapp343-aceae8559200.herokuapp.com/notes',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': auth,
+          },
+          body: JSON.stringify(noteData),
+        });
+  
+      console.log(JSON.stringify(noteData));
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Note saved:', data.message);
+        // You may want to handle the response data or do other actions here
+      } else {
+        const errorData = await response.json();
+        console.error('Note saving failed:', errorData.message);
+        // Handle the error as needed
+      }
+    } catch (error) {
+      console.error('Error saving note:', error);
+      // Handle the error as needed
+    }
   };
+  
+  
+
+
 
   return (
     <div className="confirmation-dialog">
@@ -86,14 +141,24 @@ function NewNoteDialog({ handleClose, handleConfirm }) {
           />
         </div>
         <label>Select the category for the new note:</label>
-        <select className="bg-white border border-gray-300 input-box w-full" style={{ fontSize: '16px' }}>
-          <option disabled value="">Select a category...</option>
-          <option value="category1">To-Do List</option>
-          <option value="category2">Class Note</option>
-          <option value="category3">Work Note</option>
-          <option value="category4">Summary</option>
-          <option value="category5">Other</option>
+        <select
+          className="bg-white border border-gray-300 input-box w-full"
+          style={{ fontSize: '16px' }}
+          value={selectedCategory}
+          onChange={(e) => {
+            const selectedValue = e.target.value;
+            setSelectedCategory(selectedValue);
+            console.log('Selected Category:', selectedValue); // Add this line to log the selected category
+          }}
+        >
+          <option value="">All Notes</option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.name}>
+              {category.name}
+            </option>
+          ))}
         </select>
+
       </div>
       <div className="button-container" style={{ marginTop: '20px' }}>
         <button className="confirm-button" onClick={handleCreateNote}>Create Note</button>
@@ -141,6 +206,7 @@ function NewNoteDialog({ handleClose, handleConfirm }) {
       </Modal>
     </div>
   );
+  
 }
 
 export default NewNoteDialog;
