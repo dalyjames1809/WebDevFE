@@ -2,11 +2,13 @@ import React, {useState, useEffect} from 'react';
 import './SettingsModal.css';
 import ConfirmationDialog from './DeletePopUp';
 import { useUser } from './UserContext';
+import { useNavigate } from 'react-router-dom';
 
 function SettingsPopup({ handleClose }) {
 
-  const { username, name } = useUser();
-
+  const { username, name, userID } = useUser();
+  const navigate = useNavigate();
+  
   const [formData, setFormData] = useState({
     username: name,
     email: username,
@@ -28,27 +30,26 @@ function SettingsPopup({ handleClose }) {
     setEditMode(true);
   };
 
-  const handleSave = () => {
-    setEditMode(false);
+  const handleSave = async (e) => {
     try {
-      const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/users/updateUser', {
-        method: 'POST',
+      const response = await fetch(`https://notesapp343-aceae8559200.herokuapp.com/users/${userID}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({ username: formData.username, email: formData.email, password: formData.password }),
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Edit successful:', data.message);
-        navigate('/');
-      } else {
-        const errorData = await response.json();
-        console.error('Edit failed:', errorData.message);
-      }
-      } catch (error) {
-      console.error('Error edit user:', error);
+    if (response.ok) {
+      const data = await response.json();
+      console.log('Edit successful:', data.message);
+      navigate('/');
+    } else {
+      const errorData = await response.json();
+      console.error('Edit failed:', errorData.message);
+    }
+    } catch (error) {
+    console.error('Error edit user:', error);
     }
   };
 
@@ -67,25 +68,6 @@ function SettingsPopup({ handleClose }) {
   const handleCloseConfirmation = () => {
     setShowConfirmation(false);
   };
-
-  // useEffect to fetch user data when the component is mounted
-  useEffect(() => {
-    // Replace 'userId' with the actual user ID you want to fetch
-    fetch(`/users/bob`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        // You may need to include a token for authentication here
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setFormData(data.user); // Update formData with the user data
-      })
-      .catch((error) => {
-        console.error('Error fetching user data:', error);
-      });
-  }, []);
   
     return (
       <div className="modal-overlay">
