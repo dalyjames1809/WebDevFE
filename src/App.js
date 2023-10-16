@@ -5,7 +5,7 @@ import Main from './Main'
 import { useNavigate } from 'react-router-dom';
 import { useUser } from './UserContext';
 
-async function App() {
+function App() {
   return (
     <Router>
       <Routes>
@@ -16,7 +16,7 @@ async function App() {
         <Route path="/register" element={<SignUp />} />
 
         {/* Main Page (Home Page After Login) */}
-        <Route path="/home" element={<Main/>} />
+        <Route path="/home" element={<Main />} />
       </Routes>
     </Router>
   );
@@ -128,3 +128,4 @@ function Home() {
 }
 
 export default App;
+
