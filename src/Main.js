@@ -7,8 +7,8 @@ import ConfirmationDialog from './SignOutPopUp';
 import NewNoteDialog from './NewNotePopUp';
 import { useUser } from './UserContext';
 
-function Main() {
-
+function Main({data}) {
+  console.log(data);
   const { username } = useUser();
   const [notename, setNoteName] = useState("");
   // State to manage selected note and its content
