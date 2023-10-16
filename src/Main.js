@@ -144,7 +144,7 @@ function Main() {
   
         // Define the data to be sent in the POST request
         const noteData = {
-          title: selectedNote.title,
+          title: "James",
           content: noteContent,
         };
         
