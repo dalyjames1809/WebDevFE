@@ -28,8 +28,7 @@ function SettingsPopup({ handleClose }) {
     setEditMode(true);
   };
 
-  const handleSave = () => {
-    setEditMode(false);
+  const handleSave = async (e) => {
     try {
       const response = await fetch('https://notesapp343-aceae8559200.herokuapp.com/users/updateUser', {
         method: 'POST',
@@ -39,16 +38,16 @@ function SettingsPopup({ handleClose }) {
         body: JSON.stringify({ username, email, password }),
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Edit successful:', data.message);
-        navigate('/');
-      } else {
-        const errorData = await response.json();
-        console.error('Edit failed:', errorData.message);
-      }
-      } catch (error) {
-      console.error('Error edit user:', error);
+    if (response.ok) {
+      const data = await response.json();
+      console.log('Edit successful:', data.message);
+      navigate('/');
+    } else {
+      const errorData = await response.json();
+      console.error('Edit failed:', errorData.message);
+    }
+    } catch (error) {
+    console.error('Error edit user:', error);
     }
   };
 
