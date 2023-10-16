@@ -58,8 +58,8 @@ function Home() {
         console.log(data);
 
         const token = data.token;
-        setUserToken(token.userToken);
-        navigate('/home');
+        navigate('/home', { state: { data } });
+
       } else {
         // Handle login failure here.
         const errorData = await response.json();

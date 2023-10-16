@@ -10,8 +10,9 @@ import Modal from 'react-modal';
 
 Modal.setAppElement('#root');
 
-function Main() {
-
+function Main(props) {
+  const data = props.location.state.data;
+  const token = data ? data.token : null;
   const { username , userToken } = useUser();
   //console.log(userToken);
   const [notename, setNoteName] = useState("");
@@ -140,7 +141,7 @@ function Main() {
     // When you save changes, update the clickedNote's text with the content in the text box.
     if (selectedNote) {
       try {
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2MiwiZXhwIjoxNjk3NDUyMDU3fQ.75ncPvlx6uwAcPbWaV1JbUGOBi1Px0XdQ98Eao798QQ';
+       // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2MiwiZXhwIjoxNjk3NDU1NzcwfQ.qTHTVWhm4-IwqpKg4026jP_ymhPi7eCBIP5RWIbv2z4';
   
         // Define the data to be sent in the POST request
         const noteData = {
