@@ -7,6 +7,7 @@ import ConfirmationDialog from './SignOutPopUp';
 import NewNoteDialog from './NewNotePopUp';
 import { useUser } from './UserContext';
 import Modal from 'react-modal';
+import AddFriendPopUp from './AddFriendPopUp';
 
 Modal.setAppElement('#root');
 
@@ -245,6 +246,25 @@ function Main() {
       openModal();
     }
   };
+
+
+
+  const [showAddFriendDialog, setAddFriendDialog] = useState(false);
+
+  const OpenNewFriendPopUp = () => {
+    setAddFriendDialogAddFriendDialog(true)
+    // Add your logic for adding friends here
+  };
+
+  const handleNewFriendPopUp = () => {
+    
+    closeNewFriendPopUp();
+  };
+
+  const closeNewFriendPopUp = () => {
+    setAddFriendDialog(false)
+    // Add your logic for adding friends here
+  };
   
   
   const handleSortClick = () => {
@@ -313,6 +333,17 @@ function Main() {
             alt="external logo"
           />
         </div>
+        <button className="add-friend-button" onClick={OpenNewFriendPopUp}>+Friend</button>
+        {showAddFriendPopUp && (
+              <div className="modal-overlay">
+                <div className="modal-content">
+                  <AddFriendPopUp
+                    handleClose={closeNewFriendPopUp}
+                    handleConfirm={handleNewFriendPopUp}
+                  />
+                </div>
+              </div>
+            )}
         <div className="mr-4 ml-20">
           <h2 className="text-4xl font-funky mb-4 inline">{username ? `Welcome, ${username}` : 'Welcome'}</h2>
         </div>
