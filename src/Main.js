@@ -23,22 +23,11 @@ function Main() {
   const [validationError, setValidationError] = useState('');
   const [notes, setNotes] = useState([]);
 
-  const socket = new WebSocket('wss://notesapp343-aceae8559200.herokuapp.com');  // Replace with your WebSocket server URL
 
-  socket.addEventListener('open', (event) => {
-    console.log('WebSocket connection opened:', event);
-  });
 
-  socket.addEventListener('message', (event) => {
-    const data = JSON.parse(event.data);
-    console.log('Received message from server:', data);
 
-    // Handle the received message, e.g., update the UI with the new note data
-  });
 
-  socket.addEventListener('close', (event) => {
-    console.log('WebSocket connection closed:', event);
-  });
+ 
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -91,7 +80,7 @@ function Main() {
         const data = await response.json();
         // Filter categories by user_id
         const filteredCategories = data.filter(category => category.user_id === userID);
-        console.log(filteredCategories);
+        //console.log(filteredCategories);
         return filteredCategories;
       } else {
         const errorData = await response.json();
@@ -156,7 +145,17 @@ function Main() {
   }, [userToken, userID]);
   
   
+  const handleRefresh = async () => {
+    const notesData = await fetchAllNotes(userToken);
+    if (notesData) {
+      setNotes(notesData);
+    }
 
+    const categoriesData = await fetchUserCategories(userToken, userID);
+    if (categoriesData) {
+      setCategories(categoriesData);
+    }
+  };
   
   function changeFontSize(direction) {
     var textarea = document.querySelector('.markup-textarea');
@@ -553,21 +552,33 @@ function Main() {
             </div>
         </div>
 
-        <label className="text-sky-600 font-bold">Filter Notes by Category:</label>
-      <div className="mb-2"></div> {/* Adjust the value (2) to your desired spacing */}
-      <select
-        className="bg-white border border-gray-300 p-2 input-box w-full"
-        value={selectedCategory}
-        onChange={handleCategoryChange}
-      >
-        <option value="category1">All Notes</option>
-        {categories.map((category) => (
-          <option key={category.id} value={category.id}>
-            {category.name}
-          </option>
-        ))}
-      </select>
+        <div className="mb-4">
+  <label className="text-sky-600 font-bold">Filter Notes by Category:</label>
+  <div className="mb-2"></div> {/* Adjust the value (2) to your desired spacing */}
+  <select
+    className="bg-white border border-gray-300 p-2 input-box w-full"
+    value={selectedCategory}
+    onChange={handleCategoryChange}
+  >
+    <option value="category1">All Notes</option>
+    {categories.map((category) => (
+      <option key={category.id} value={category.id}>
+        {category.name}
+      </option>
+    ))}
+  </select>
+</div>
 
+{/* Refresh Button with space above */}
+<div className="mt-4">
+  <button
+    className="bg-sky-600 text-white py-2 px-24 hover-bg-sky-700 ml-2 flex items-center"
+    onClick={handleRefresh}
+    style={{ justifyContent: 'center' }}
+  >
+    <i className="fas fa-sync" style={{ marginRight: '5px' }}></i> Refresh
+  </button>
+</div>
       <div className="mb-8"></div> {/* Adjust the value (2) to your desired spacing */}
       <div className="bg-white p-4 border border-gray-300 mt-4 rounded h-[380px] overflow-auto">
         <h3 className="text-sky-600 font-bold mb-2">Your Notes:</h3>
