@@ -91,6 +91,7 @@ function Main() {
         const data = await response.json();
         // Filter categories by user_id
         const filteredCategories = data.filter(category => category.user_id === userID);
+        console.log(filteredCategories);
         return filteredCategories;
       } else {
         const errorData = await response.json();
