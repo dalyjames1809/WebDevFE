@@ -420,17 +420,18 @@ function Main() {
   const [selectedCategory, setSelectedCategory] = useState('category1');
 
   const handleCategoryChange = (event) => {
-    setSelectedCategory(event.target.value);
-    console.log(categories.category_id);
-    console.log(notes.category_id);
-    
-    // Do something with the selected category, if needed
-    const filteredNotesCat = notes.filter((note) =>
-      note.category_id.includes(categories.category_id)
-    );
+    const selectedCategoryValue = event.target.value;
+    const selectedCategoryID = categories.find((category) => category.name === selectedCategoryValue)?.category_id;
+    console.log(selectedCategoryID)
+    console.log(selectedCategoryValue) //reurns name
 
+    // Filter notes based on the selected category
+    const filteredNotesCat = notes.filter((note) => note.category_id === selectedCategoryID);
+
+    
     setNotes(filteredNotesCat);
   };
+  
   
   return (
     <div className="flex flex-col flex-1">
