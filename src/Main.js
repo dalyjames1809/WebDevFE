@@ -21,6 +21,7 @@ function Main() {
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [validationError, setValidationError] = useState('');
+  const [notes, setNotes] = useState([]);
 
   const socket = new WebSocket('wss://notesapp343-aceae8559200.herokuapp.com');  // Replace with your WebSocket server URL
 
@@ -399,9 +400,9 @@ function Main() {
       return;
     }
   
-    resetSearch();
     serOrigNote(notes);
-  
+    console.log(notes);
+
     const filteredNotes = notes.filter((note) =>
       note.text.toLowerCase().includes(searchQuery.toLowerCase())
     );
