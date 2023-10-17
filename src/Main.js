@@ -468,7 +468,7 @@ function Main() {
         <div className="flex items-center">
         <div className="flex items-center ml-4">
           <img
-            src="Avatar_1.png" // URL of the external logo
+            src="Avatar_3.png" // URL of the external logo
             className="w-16 h-16 rounded-full mr-4"
             alt="external logo"
         />
