@@ -428,8 +428,12 @@ function Main() {
     // Filter notes based on the selected category
     const filteredNotesCat = notes.filter((note) => note.category_id === selectedCategoryID);
 
-    
+    setSelectedCategory(selectedCategoryValue)
     setNotes(filteredNotesCat);
+
+    if(selectedCategoryValue === "category1"){
+      setNotes(notes)
+    }
   };
   
   
