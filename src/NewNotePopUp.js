@@ -183,7 +183,11 @@ function NewNoteDialog({ handleClose, handleConfirm }) {
             type="text"
             name="title"
             placeholder="Enter note title here..."
-            style={{ color: 'black', fontSize: '16px' }}
+            style={{
+              color: 'black',
+              fontSize: '16px',
+              width: '100%', // Set the width to 100%
+            }}
             value={title}
             onChange={handleTitleChange}
           />
@@ -191,7 +195,10 @@ function NewNoteDialog({ handleClose, handleConfirm }) {
         <label>Select existing category for the new note:</label>
         <select
           className="bg-white border border-gray-300 input-box w-full"
-          style={{ fontSize: '16px' }}
+          style={{
+            fontSize: '16px',
+            width: '100%', // Set the width to 100%
+          }}
           value={selectedCategory}
           onChange={(e) => {
             const selectedValue = e.target.value;
@@ -212,19 +219,34 @@ function NewNoteDialog({ handleClose, handleConfirm }) {
             type="text"
             name="newCategory"
             placeholder="Enter category name..."
-            style={{ color: 'black', fontSize: '16px' }}
+            style={{
+              color: 'black',
+              fontSize: '16px',
+              width: '100%', // Set the width to 100%
+            }}
             value={newCategory}
             onChange={handleNewCategoryChange}
           />
-          <button
-            className="create-category-button"
-            onClick={handleCreateCategory}
-          >
-            Create Category
-          </button>
         </div>
-
       </div>
+  
+      <button
+        className="create-category-button"
+        onClick={handleCreateCategory}
+        style={{
+          backgroundColor: 'blue',
+          color: 'white',
+          fontSize: '15px',
+          padding: '10px 20px',
+          borderRadius: '5px',
+          border: 'none',
+          cursor: 'pointer',
+          marginLeft: '20px',
+        }}
+      >
+        Create Category
+      </button>
+  
       <div className="button-container" style={{ marginTop: '20px' }}>
         <button className="confirm-button" onClick={handleCreateNote}>Create Note</button>
         <button className="cancel-button" onClick={handleClose}>Cancel</button>
@@ -271,7 +293,6 @@ function NewNoteDialog({ handleClose, handleConfirm }) {
       </Modal>
     </div>
   );
-  
-}
+}  
 
 export default NewNoteDialog;
