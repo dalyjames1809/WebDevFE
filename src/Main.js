@@ -418,6 +418,14 @@ function Main() {
     setNotes(originalNotes); // Assuming "originalNotes" contains the unfiltered list of notes
   };
 
+  const [selectedCategory, setSelectedCategory] = useState('category1');
+
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);
+    console.log(categories);
+    // Do something with the selected category, if needed
+  };
+  
   return (
     <div className="flex flex-col flex-1">
       {/* Top Blue Bar */}
@@ -540,7 +548,11 @@ function Main() {
 
         <label className="text-sky-600 font-bold">Filter Notes by Category:</label>
       <div className="mb-2"></div> {/* Adjust the value (2) to your desired spacing */}
-      <select className="bg-white border border-gray-300 p-2 input-box w-full">
+      <select
+        className="bg-white border border-gray-300 p-2 input-box w-full"
+        value={selectedCategory}
+        onChange={handleCategoryChange}
+      >
         <option value="category1">All Notes</option>
         {categories.map((category) => (
           <option key={category.id} value={category.id}>
