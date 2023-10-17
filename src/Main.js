@@ -116,7 +116,7 @@ function Main() {
     }
 
     fetchData();
-
+    /*
     // Set up an interval to fetch data every 10 seconds for notes
     const notesInterval = setInterval(async () => {
       const notesData = await fetchAllNotes(userToken);
@@ -126,7 +126,8 @@ function Main() {
     }, 5000); // 10 seconds in milliseconds
 
     // Cleanup the interval when the component unmounts
-    return () => clearInterval(notesInterval);
+    return () => clearInterval(notesInterval);*/
+    
   }, [userToken]);
 
   useEffect(() => {
@@ -139,7 +140,7 @@ function Main() {
     }
 
     fetchData();
-
+      /*
     // Set up an interval to fetch data every 10 seconds for categories
     const categoriesInterval = setInterval(async () => {
       const categoriesData = await fetchUserCategories(userToken, userID);
@@ -149,7 +150,7 @@ function Main() {
     },5000); // 10 seconds in milliseconds
 
     // Cleanup the interval when the component unmounts
-    return () => clearInterval(categoriesInterval);
+    return () => clearInterval(categoriesInterval);*/
   }, [userToken, userID]);
   
   
