@@ -127,6 +127,26 @@ function SettingsPopup({ handleClose }) {
     setValidationErrors('');
   };
 
+  const avatarImages = [
+    'Avatar_1.png',
+    'Avatar_2.jpg',
+    'Avatar_3.png',
+    'Avatar_4.png',
+    'Avatar_5.png'
+  ];
+  
+  const [selectedAvatar, setSelectedAvatar] = useState(); // Store the selected avatar image
+
+  const handleAvatarSelect = (selectedAvatar, selectedIndex) => {
+    setFormData({
+      ...formData,
+      avatar: selectedAvatar,
+    });
+    setSelectedAvatarIndex(selectedIndex);
+  };
+
+  const [selectedAvatarIndex, setSelectedAvatarIndex] = useState(2); // Initialize with the default index (2 in this case).
+  
     return (
       <div className="modal-overlay">
         <div className="modal-content">
@@ -172,17 +192,39 @@ function SettingsPopup({ handleClose }) {
           </div>
   
           <div className="info-block">
-              <div className="label-column">
-                <label style={{ fontWeight: 'bold', fontSize: '1.2em' }}>Avatar:</label>
-              </div>
-              <div className="input-column" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <img
-                src="/Avatar_1.png" 
-                style={{ width: '50px', height: '50px'}}
+            <div className="label-column">
+              <label style={{ fontWeight: 'bold', fontSize: '1.2em' }}>Avatar:</label>
+            </div>
+          <div className="input-column" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {editMode ? (
+            avatarImages.map((avatar, index) => (
+            <label key={index} className="cursor-pointer">
+            <input
+              type="radio"
+              name="avatar"
+              value={avatar}
+              checked={selectedAvatarIndex === index} // Check against the index
+              onChange={() => handleAvatarSelect(avatar, index)}
+              style={{ display: 'none' }}
+            />
+            <img
+              src={avatar}
+              alt={`Avatar ${index + 1}`}
+              className="w-12 h-12 rounded-full cursor-pointer"
+            />
+            {selectedAvatarIndex === index && (
+              <div className="selected-icon">✔</div>
+            )}
+          </label>
+          ))
+          ) : (
+          <img
+            src={avatarImages[selectedAvatarIndex]} // Display the selected avatar based on the index
+            className="w-12 h-12 rounded-full"
           />
-          </div>
-
-          </div>
+        )}
+        </div>
+        </div>
   
           <div className="info-block">
             <div className="label-column">
