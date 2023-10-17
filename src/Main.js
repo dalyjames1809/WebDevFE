@@ -222,8 +222,6 @@ function Main() {
 
   };
   
-
-  const [notes, setNotes] = useState([]);
   const [highestId, setHighestId] = useState(0);
 
   const addNote = (newNote) => {
