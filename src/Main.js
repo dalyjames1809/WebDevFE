@@ -424,6 +424,11 @@ function Main() {
     setSelectedCategory(event.target.value);
     console.log(categories);
     // Do something with the selected category, if needed
+    const filteredNotesCat = notes.filter((note) =>
+    note.catergory_id.toLowerCase().includes(categories.catergory_id)
+    );
+
+    setNotes(filteredNotesCat);
   };
   
   return (
