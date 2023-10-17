@@ -422,10 +422,12 @@ function Main() {
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
-    console.log(categories);
+    console.log(categories.category_id);
+    console.log(notes.category_id);
+    
     // Do something with the selected category, if needed
     const filteredNotesCat = notes.filter((note) =>
-    note.catergory_id.includes(categories.catergory_id)
+      note.category_id.includes(categories.category_id)
     );
 
     setNotes(filteredNotesCat);
