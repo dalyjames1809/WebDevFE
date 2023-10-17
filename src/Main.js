@@ -402,7 +402,7 @@ function Main() {
     console.log(notes);
 
     const filteredNotes = notes.filter((note) =>
-      note.text.toLowerCase().includes(searchQuery.toLowerCase())
+      note.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
   
     // Update the displayed notes
